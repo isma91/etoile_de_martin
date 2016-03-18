@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="format-detection" content="telephone=no">
+  <meta name="msapplication-tap-highlight" content="no">
+  <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+  <meta name="description" content="" />
+  <title>Cadeau Solidaire</title>
+  <link media="all" type="text/css" rel="stylesheet" href="css/google_material_icons.css" />
+  <link media="all" type="text/css" rel="stylesheet" href="css/materialize.min.css" />
+  <link media="all" type="text/css" rel="stylesheet" href="css/index.css" />
+  <script src="js/jquery-2.1.4.min.js"></script>
+  <script src="js/materialize.min.js"></script>
+  <script src="js/index.js"></script>
+</head>
+<body>
+  <div class="container">
+    <img class="responsive-img" src="img/logo.png" alt="logo_etoile_de_martin">
+    <h1>Bienvenue dans Cadeau Solidaire !!</h1>
+    <h2>Pour faire un don, veuillez remplir le formulaire</h2>
+    <div class="row">
+      <form class="col s12">
+        <div class="row">
+          <div class="input-field col s12">
+            <i class="material-icons prefix">account_circle</i>
+            <input id="user_nom" type="text">
+            <label for="user_nom">Nom</label>
+          </div>
+          <div class="input-field col s12">
+            <i class="material-icons prefix">account_box</i>
+            <input id="user_prenom" type="text">
+            <label for="user_prenom">Prenom</label>
+          </div>
+          <div class="input-field col s12">
+            <i class="material-icons prefix">email</i>
+            <input id="user_email" type="email">
+            <label for="user_email">Email</label>
+          </div>
+          <div class="input-field col s12">
+            <i class="material-icons prefix">phone</i>
+            <input id="user_tel" type="tel">
+            <label for="user_tel">Numero de Telephone (Facultatif)</label>
+          </div>
+          <h3>Si vous avez été parrainer, veuillez indiquer son email ou son numero de telephone</h3>
+          <div class="input-field col s12">
+            <i class="material-icons prefix">email</i>
+            <input id="parrain_email" type="email">
+            <label for="parrain_email">Email du Parrain</label>
+          </div>
+          <div class="input-field col s12">
+            <i class="material-icons prefix">phone</i>
+            <input id="parrain_tel" type="tel">
+            <label for="parrain_tel">Numero de Telephone du Parrain</label>
+          </div>
+          <div class="input-field col s12">
+            <select id="montant_don">
+              <option value="10">10€</option>
+              <option value="20">20€</option>
+              <option value="30">30€</option>
+              <option value="autre">autre montant</option>
+            </select>
+            <label>Montant du don</label>
+          </div>
+          <div id="input_autre_montant">
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
