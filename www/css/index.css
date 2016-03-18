@@ -27,3 +27,7 @@ h3 {
 	display: block;
 	margin: auto;
 }
+#div_error {
+	text-align: center;
+	color: #FF0000;
+}
