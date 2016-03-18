@@ -23,6 +23,7 @@ h3 {
 .input-field input[type=text]:focus + label {
 	color: #52b4b3;
 }
-#z {
-	background-color: red;
+#valider_don {
+	display: block;
+	margin: auto;
 }
