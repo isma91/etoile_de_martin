@@ -1,0 +1,28 @@
+@font-face {
+	font-family: 'Century-Gothic';
+	font-style: normal;
+	src: url('../font/century_gothic.ttf');
+}
+html,
+body {
+	font-family: 'Century-Gothic';
+	color : #828383;
+}
+h1 {
+	text-align: center;
+	font-size: 1.8em;
+}
+h2 {
+	text-align: center;
+	font-size: 1.5em;
+}
+h3 {
+	text-align: center;
+	font-size: 1.3em;
+}
+.input-field input[type=text]:focus + label {
+	color: #52b4b3;
+}
+#z {
+	background-color: red;
+}
