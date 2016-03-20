@@ -20,9 +20,34 @@ h3 {
 	text-align: center;
 	font-size: 1.3em;
 }
-.input-field input[type=text]:focus + label {
-	color: #52b4b3;
+
+.input-field input[type=tel] + label {
+			color: #9e9e9e;
 }
+
+.input-field input[type=tel]:focus + label {
+	color: #ea3e92;
+	transition:0.5s;
+}
+
+.input-field input[type=email] + label {
+			color: #9e9e9e;
+}
+
+.input-field input[type=email]:focus + label {
+	color: #ea3e92;
+	transition:0.5s;
+}
+
+.input-field input[type=text] + label {
+			color: #9e9e9e;
+}
+
+.input-field input[type=text]:focus + label {
+	color: #ea3e92;
+	transition:0.5s;
+}
+
 #valider_don {
 	display: block;
 	margin: auto;
@@ -31,3 +56,14 @@ h3 {
 	text-align: center;
 	color: #FF0000;
 }
+
+#valider_inscription {
+	display: block;
+	margin: auto;
+}
+
+#valider_inscription:hover, #valider_don:hover{
+	color:#ea3e92;
+	transition:0.5s;
+}
+
