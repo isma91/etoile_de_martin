@@ -48,18 +48,16 @@ h3 {
 	transition:0.5s;
 }
 
-#valider_don {
+#valider_don,
+#valider_inscription,
+#login,
+#register {
 	display: block;
 	margin: auto;
 }
 #div_error {
 	text-align: center;
 	color: #FF0000;
-}
-
-#valider_inscription {
-	display: block;
-	margin: auto;
 }
 
 #valider_inscription:hover, #valider_don:hover{
