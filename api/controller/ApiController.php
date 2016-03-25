@@ -14,7 +14,11 @@ class ApiController
 		$user = new UsersController();
 		switch ($request) {
 			case 'create':
-				$this->_response = $user->create($post);
+				if ($user->create($post)) {
+					$this->_response = array('status' => 'success', 'message' => 'user register with success');
+				} else {
+					$this->_response = array('status' => 'error', 'message' => 'cant register user error_id = [1]');
+				}
 				break;
 
 		}
