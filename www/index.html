@@ -18,67 +18,10 @@
 <body>
   <div class="container" id="the_body">
     <img class="responsive-img" src="img/logo.png" alt="logo_etoile_de_martin">
-    <h1>Bienvenue dans Cadeau Solidaire !!</h1>
-    <h2>Pour faire un don, veuillez remplir le formulaire</h2>
-    <div class="row">
-      <div class="col s12" id="div_error"></div>
-    </div>
-    <div class="row">
-      <form class="col s12">
-        <div class="row">
-          <div class="input-field col s12">
-            <i class="material-icons prefix">account_circle</i>
-            <input id="user_nom" type="text">
-            <label for="user_nom">Nom</label>
-          </div>
-          <div class="input-field col s12">
-            <i class="material-icons prefix">account_box</i>
-            <input id="user_prenom" type="text">
-            <label for="user_prenom">Prenom</label>
-          </div>
-          <div class="input-field col s12">
-            <i class="material-icons prefix">email</i>
-            <input id="user_email" type="email">
-            <label for="user_email">Email</label>
-          </div>
-          <div class="input-field col s12">
-            <i class="material-icons prefix">phone</i>
-            <input id="user_tel" type="tel">
-            <label for="user_tel">Numero de Telephone (Facultatif)</label>
-          </div>
-          <h3>Si vous avez été parrainer, veuillez indiquer son email ou son numero de telephone</h3>
-          <div class="input-field col s12">
-            <i class="material-icons prefix">email</i>
-            <input id="parrain_email" type="email">
-            <label for="parrain_email">Email du Parrain</label>
-          </div>
-          <div class="input-field col s12">
-            <i class="material-icons prefix">phone</i>
-            <input id="parrain_tel" type="tel">
-            <label for="parrain_tel">Numero de Telephone du Parrain</label>
-          </div>
-          <div class="input-field col s12">
-            <select id="montant_don">
-              <option value="10">10€</option>
-              <option value="20">20€</option>
-              <option value="30">30€</option>
-              <option value="autre">autre montant</option>
-            </select>
-            <label>Montant du don</label>
-          </div>
-          <div id="input_autre_montant">
-          </div>
-        </div>
-      </form>
-      <div class="row">
-        <button class="waves-effect waves-teal btn-flat" id="valider_don">Valider le don</button>
-      </div>
-      <div class="row">
-        <button class="waves-effect waves-teal btn-flat" id="login">Login</button>
-      </div>
-      <div class="row">
-        <button class="waves-effect waves-teal btn-flat" id="register">Register</button>
-      </div>
+    <div class="row end_button">
+      <h1>Avez-vous été invité ?</h1>
+      <button class="waves-effect waves-teal btn-flat" id="non_parrain">Non</button>
+      <button class="waves-effect waves-teal btn-flat" id="oui_parrain">Oui</button>
     </div>
   </div>
 </body>
