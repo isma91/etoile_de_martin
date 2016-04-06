@@ -2,9 +2,11 @@
 /*jslint devel : true*/
 /*global $, jQuery*/
 $(document).ready(function () {
-    var user_nom, user_prenom, user_email, user_tel, parrain_email, parrain_tel, don, error_message, error_count, user_pass, user_pass_valider, user_adress, user_newsletter, user_inscription_error;
+    var user_nom, user_prenom, user_email, user_tel, parrain_email, parrain_tel, don, error_message, error_count, user_pass, user_pass_valider, user_adress, user_newsletter, user_inscription_error, error_check_parrain;
     error_message = "";
     error_count = 0;
+    console.log(localStorage.etoile_de_martin_user_email);
+    console.log(localStorage.etoile_de_martin_user_pass);
     function change_to_invalide (id_selector) {
         $('#' + id_selector).css('border-bottom', '1px solid #FF0000');
     }
@@ -109,6 +111,7 @@ $(document).ready(function () {
                     data = JSON.parse(data);
                     if (data.error === null) {
                         Materialize.toast('<p class="alert-success">' + data.data + '<p>', 3000, 'rounded alert-success');
+                        localStorage.setItem("etoile_de_martin_user_email", user_email);
                     } else {
                         Materialize.toast('<p class="alert-failed">' + data.error + '<p>', 3000, 'rounded alert-failed');
                     }
@@ -118,6 +121,7 @@ $(document).ready(function () {
         }
     });
     $(document).on('click', '#valider_parrain', function() {
+        error_check_parrain = "";
         check_parrain_json = {};
         change_to_valide("parrain_email");
         change_to_valide("parrain_tel");
@@ -134,23 +138,23 @@ $(document).ready(function () {
         if (parrain_email !== "") {
             if (parrain_email.split('@').length === 2) {
                 if (parrain_email.split('@')[0] !== "" && parrain_email.split('@')[1] !== "") {
-                    if (parrain_email.split('@')[1].split(".").length > 0) {
+                    if (parrain_email.split('@')[1].split(".").length > 1) {
                         choose_parrain_email = true;
                     } else {
                         if (choose_parrain_tel === false) {
-                            $("#div_error_parrain").html('<p>Email non valide !!</p>');
+                            error_check_parrain = error_check_parrain + '<p>Email non valide !!</p>';
                             change_to_invalide("parrain_email");
                         }
                     }
                 } else {
                     if (choose_parrain_tel === false) {
-                        $("#div_error_parrain").html('<p>Email non valide !!</p>');
+                        error_check_parrain = error_check_parrain + '<p>Email non valide !!</p>';
                         change_to_invalide("parrain_email");
                     }
                 }
             } else {
                 if (choose_parrain_tel === false) {
-                    $("#div_error_parrain").html('<p>Email non valide !!</p>');
+                    error_check_parrain = error_check_parrain + '<p>Email non valide !!</p>';
                     change_to_invalide("parrain_email");
                 }
             }
@@ -160,12 +164,13 @@ $(document).ready(function () {
                 choose_parrain_tel = true;
             } else {
                 if (choose_parrain_email === false) {
-                    $("#div_error_parrain").html("<p>Numero non valide !!</p>");
+                    error_check_parrain = error_check_parrain + "<p>Numero non valide !!</p>";
                     change_to_invalide("parrain_tel");
                 }
             }
         }
-        check_parrain_json = {};
+        $("#div_error_parrain").html(error_check_parrain);
+        check_parrain_json = {action: ""};
         if (choose_parrain_tel === true && choose_parrain_email === true) {
             check_parrain_json = {action: 'check_parrain', parrain_tel: parrain_tel, parrain_email: parrain_email};
         } else if (choose_parrain_email === true && choose_parrain_tel === false) {
@@ -182,12 +187,6 @@ $(document).ready(function () {
         //envoie de la requete ajax pour verifier si l'email/tel de ce parrain exist
         //puis ajout dans un localstorage
     });
-    /* ces deux localStorage seront utiliser pour savoir si l'utilisateur est déjà connecter ou pas */
-    /*console.log(localStorage.etoile_de_martin_user);
-    console.log(localStorage.etoile_de_martin_pass);
-    if (localStorage.etoile_de_martin_user == undefined) {
-        $('#user').html('Vous n\'etes pas connecter, <span id="go_login">cliquer ici</span> pour vous connecter')
-    }*/
     $(document).on('change', '#montant_don', function() {
         if ($(this).val() === "autre") {
             $('#input_autre_montant').html('<div class="input-field col s12"><i class="material-icons prefix">€</i><input id="don" type="number"><label for="don">Montant du don</label></div>');
