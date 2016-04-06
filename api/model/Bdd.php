@@ -30,9 +30,9 @@ Class Bdd
     {
         $config = include '../config.php';
         try {
-            $this->_bdd = new PDO('mysql:host=' . $config['db']['host'] . ';dbname=' . $config['db']['dbname'], $config['db']['username'], $config['db']['password']);
+            $this->_bdd = new \PDO('mysql:host=' . $config['db']['host'] . ';dbname=' . $config['db']['dbname'], $config['db']['username'], $config['db']['password']);
         }
-        catch ( Exception $e ) {
+        catch (\PDOException $e) {
             die('Erreur : '.$e->getMessage());
         }
     }
