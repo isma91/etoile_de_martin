@@ -7,13 +7,13 @@ $users_controller = new UsersController();
 
 switch ($_POST["action"]) {
 	case 'check_parrain':
-	//utiliser la fonction check_parrain
+	$users_controller->check_parrain($_POST["parrain_email"], $_POST["parrain_tel"]);
 	break;
 	case 'user_inscription':
 	$users_controller->create_user($_POST["user_nom"], $_POST["user_prenom"], $_POST["user_adress"], $_POST["user_email"], $_POST["user_pass"], $_POST["user_tel"], $_POST["user_newsletter"]);
 	break;
 	default:
-	send_json("action non valide !!", null);
+	echo json_encode(array('error' => "action non valide !!", 'data' => null));
 	break;
 }
 /*if ($_POST && $_GET) {
