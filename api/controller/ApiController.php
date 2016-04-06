@@ -7,7 +7,7 @@ class ApiController
 {
 	private $_response;
 
-	public function __construct($post, $request)
+	/*public function __construct($post, $request)
 	{
 		$request = $request['request'];
 
@@ -27,5 +27,5 @@ class ApiController
 	public function result()
 	{
 		return json_encode($this->_response);
-	}
+	}*/
 }
