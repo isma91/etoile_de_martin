@@ -41,6 +41,7 @@ class UsersController extends User
 	}
 	public function check_parrain ($email, $tel) {
 		$bdd = new Bdd();
+		$existed_parrain = false;
 		if (!empty($email) && !empty($tel)) {
 			$sql = $bdd->getBdd()->prepare("SELECT * FROM user WHERE user_email = ? OR user_tel = ?");
 			$sql->bindParam(1, $tel);
@@ -54,7 +55,9 @@ class UsersController extends User
 		}
 		$sql->execute();
 		$donnees = $sql->fetchAll();
-		//var_dump($donnees);
+		foreach ($donnees as $value) {
+			//comment faire pour gerer si il y a que le tel, que l'email ou les deux ?
+		}
 	}
 	/*public function create()
 	{
