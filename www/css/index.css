@@ -61,3 +61,15 @@ h3 {
 	margin: auto;
 	text-align: center;
 }
+.alert-success {
+	width: 100%;
+	margin: auto;
+	text-align: center;
+	background-color: #26a69a;
+}
+.alert-failed {
+	width: 100%;
+	margin: auto;
+	text-align: center;
+	background-color: #ea3e92;
+}
