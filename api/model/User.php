@@ -10,8 +10,8 @@ class User extends Model
     private $_pass;
     private $_tel;
     private $_parrainEmail;
-    private $_parrainTel;
     private $_newsletter;
+    private $_token;
 
     public function setNom ($nom) {
         $this->_nom = $nom;
@@ -31,8 +31,8 @@ class User extends Model
     public function setParrainEmail ($parrainEmail) {
         $this->_parrainEmail = $parrainEmail;
     }
-    public function setParrainTel ($parrainTel) {
-        $this->_parrainTel = $parrainTel;
+    public function setToken ($token) {
+        $this->_token = $token;
     }
     public function getNom() {
         return $this->_nom;
@@ -52,7 +52,7 @@ class User extends Model
     public function getParrainEmail() {
         return $this->_parrainEmail;
     }
-    public function getParrainTel() {
-        return $this->_parrainTel;
+    public function getToken() {
+        return $this->_token;
     }
 }
