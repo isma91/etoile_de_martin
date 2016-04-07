@@ -33,49 +33,62 @@ class UsersController extends User
 			$sql_insert->bindParam(":tel", $tel);
 			$sql_insert->bindParam(":adresse", $adresse);
 			$sql_insert->bindParam(":newsletter", $newsletter);
-			$sql_insert->execute();
-			self::send_json(null, 'Inscription reussi !!');
+			if ($sql_insert->execute()) {
+				$token = sha1(time() * rand(1, 555));
+				$sql_token = $bdd->getBdd()->prepare('UPDATE users SET token = :token WHERE email = :email');
+				$sql_token->bindParam(':token', $token);
+				$sql_token->bindParam(':email', $email);
+				if ($sql_token->execute()) {
+					self::send_json(null, array("email" => $email, "token" => $token));
+				} else {
+					self::send_json("Inscription reussi mais probleme d'ajout de token !! Contacter l'admin du logiciel !!", null);
+				}
+			} else {
+				self::send_json("Probleme lors de l'inscription", null);
+			}
 		} else {
 			self::send_json("L'email " . $email . " est déjà pris !! Veuillez en ecrire un autre !!", null);
 		}
 	}
-	public function check_parrain ($email, $tel) {
+	public function check_parrain ($email) {
 		$bdd = new Bdd();
-		$existed_parrain = false;
-		if (!empty($email) && !empty($tel)) {
-			$sql = $bdd->getBdd()->prepare("SELECT * FROM user WHERE user_email = ? OR user_tel = ?");
-			$sql->bindParam(1, $tel);
-			$sql->bindParam(1, $email);
-		} elseif (!empty($email) && empty($tel)) {
-			$sql = $bdd->getBdd()->prepare("SELECT * FROM user WHERE user_email = ?");
-			$sql->bindParam(1, $email);
-		} elseif (empty($email) && !empty($tel)) {
-			$sql = $bdd->getBdd()->prepare("SELECT * FROM user WHERE user_tel = ?");
-			$sql->bindParam(1, $tel);
-		}
+		$sql = $bdd->getBdd()->prepare("SELECT email FROM users WHERE email = ?");
+		$sql->bindParam(1, $email);
 		$sql->execute();
-		$donnees = $sql->fetchAll();
-		foreach ($donnees as $value) {
-			//comment faire pour gerer si il y a que le tel, que l'email ou les deux ?
+		$donnees = $sql->fetch();
+		if ($donnees !== false) {
+			self::send_json(null, $donnees["email"]);
+		} else {
+			self::send_json("L'email " . $email . " est associé avec aucun inscris !!", null);
 		}
 	}
-	/*public function create()
-	{
+	public function connexion($email, $pass) {
 		$bdd = new Bdd();
-
-		// var setting
-		$lastname = $this->getLastname();
-		$firstname = $this->getFirstname();
-		$email = isset($this->getEmail()) ? $this->getEmail() : "";
-		$telephone = isset($this->getTelephone()) ? $this->getTelephone() : "";
-		$amount = $this->getAmount();
-
-		$insert = $bdd->getBdd()->prepare('INSERT INTO users (lastname, firstname, email, telephone, amount) VALUES (?, ?, ?, ?, ?)');
-		$insert->bindParam(1, $lastname);
-		$insert->bindParam(2, $firstname);
-		$insert->bindParam(3, $email);
-		$insert->bindParam(4, $telephone);
-		$insert->bindParam(5, $amount);
-		return $insert->execute();
-	}*/
+		$sql_email = $bdd->getBdd()->prepare("SELECT email FROM users WHERE email = :email");
+		$sql_email->bindParam(":email", $email);
+		$sql_email->execute();
+		$donnee_email = $sql_email->fetch();
+		if ($donnee_email !== false) {
+			$sql_pass = $bdd->getBdd()->prepare("SELECT pass FROM users WHERE email = :email");
+			$sql_pass->bindParam(":email", $email);
+			$sql_pass->execute();
+			$donnee_pass = $sql_pass->fetch();
+			$check_pass = password_verify($pass, $donnee_pass["pass"]);
+			if ($check_pass) {
+				$token = sha1(time() * rand(1, 555));
+				$sql_token = $bdd->getBdd()->prepare('UPDATE users SET token = :token WHERE email = :email');
+				$sql_token->bindParam(':token', $token);
+				$sql_token->bindParam(':email', $email);
+				if ($sql_token->execute()) {
+					self::send_json(null, array("email" => $email, "token" => $token));
+				} else {
+					self::send_json("Bon email et pass mais probleme d'ajout de token !! Contacter l'admin du logiciel !!", null);
+				}
+			} else {
+				self::send_json("Mauvais email ou mot de pass !!", null);
+			}
+		} else {
+			self::send_json("Mauvais email ou mot de pass !!", null);
+		}
+	}
 }
