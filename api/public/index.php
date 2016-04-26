@@ -10,7 +10,7 @@ switch ($_POST["action"]) {
 	$users_controller->check_parrain($_POST["parrain_email"]);
 	break;
 	case 'user_inscription':
-	$users_controller->create_user($_POST["user_nom"], $_POST["user_prenom"], $_POST["user_adress"], $_POST["user_email"], $_POST["user_pass"], $_POST["user_tel"], $_POST["user_newsletter"]);
+	$users_controller->create_user($_POST["user_nom"], $_POST["user_prenom"], $_POST["user_adress"], $_POST["user_ville"], $_POST["user_code_postal"], $_POST["user_pays"],  $_POST["user_email"], $_POST["user_pass"], $_POST["user_tel"], $_POST["user_newsletter"]);
 	break;
 	case 'connexion':
 	$users_controller->connexion($_POST["user_email"], $_POST["user_pass"]);
