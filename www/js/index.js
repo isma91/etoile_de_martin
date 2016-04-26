@@ -18,9 +18,9 @@ $(document).ready(function () {
 
     function make_nav_work () {
         if (localStorage.getItem("etoile_de_martin_user_email") === null) {
-            $('#menu_connection').html('<h1>Bienvenue dans la page de connexion !!</h1><h2>Veuillez remplir le formulaire pour vous connectez</h2><div class="row" id="div_error"></div><div class="input-field col s12"><i class="material-icons prefix">email</i><input id="user_email" type="email" placeholder="email"></div><div class="input-field col s12"><i class="mdi-action-lock-outline prefix"></i><input id="user_pass" type="password" placeholder="Mot de passe"></div><button class="waves-effect waves-teal btn-flat" id="connexion">Connexion</button>');
+            $('#menu_connection').html('<h1>Bienvenue dans la page de connexion !!</h1><h2>Veuillez remplir le formulaire pour vous connectez</h2><div class="row" id="div_error"></div><div class="input-field col s12"><i class="material-icons prefix">email</i><input id="user_email_connexion" type="email" placeholder="email"></div><div class="input-field col s12"><i class="mdi-action-lock-outline prefix"></i><input id="user_pass" type="password" placeholder="Mot de passe"></div><button class="waves-effect waves-teal btn-flat" id="connexion">Connexion</button>');
         } else {
-            $('#menu_connection').html('Bienvenue ' + localStorage.getItem("etoile_de_martin_user_email") + ' !!');
+            $('#menu_connection').html('Bienvenue <p>' + localStorage.getItem("etoile_de_martin_user_email") + '</p> !!');
         }
         if (localStorage.getItem("etoile_de_martin_parrain_email") === null) {
             $('#menu_parrain').html('<div class="row"><h1>Pas de parrain !!</h1></div>');
@@ -54,21 +54,19 @@ $(document).ready(function () {
         $('#' + id_selector).css('border-bottom', '1px solid #9e9e9e');
     }
     function go_form_don () {
-        $('#the_body').html('<img class="responsive-img" src="img/logo.png" alt="logo_etoile_de_martin"><nav id="slide-out" class="side-nav"><div id="menu_nav"><div id="menu_connection"></div><div id="menu_parrain"></div></div></nav><a href="#" class="button-collapse" id="menu" data-activates="slide-out"><i class="material-icons medium">perm_identity</i></a><div class="row"><div class="col s12" id="user"></div></div><div class="row"><h1>Bienvenue sur l’appli « Un geste solidaire » pour l’Etoile de Martin pour soutenir la recherche sur les cancers de l’enfant</h1><h2>Pour faire un don, merci de remplir le formulaire</h2></div><div class="row"><div class="col s12" id="div_error"></div></div><div class="row"><form class="col s12"><div class="row"><div class="input-field col s12"><i class="material-icons prefix">account_circle</i><input id="user_nom" type="text"><label for="user_nom">Nom</label></div><div class="input-field col s12"><i class="material-icons prefix">account_box</i><input id="user_prenom" type="text"><label for="user_prenom">Prenom</label></div><div class="input-field col s12"><i class="material-icons prefix">email</i><input id="user_email" type="email"><label for="user_email">Email</label></div><div class="input-field col s12"><i class="material-icons prefix">phone</i><input id="user_tel" type="tel"><label for="user_tel">Numero de Telephone (Facultatif)</label></div><div class="input-field col s12"><select id="montant_don"><option value="10">10€</option><option value="20">20€</option><option value="30">30€</option><option value="autre">autre montant</option></select><label>Montant du don</label></div><div id="input_autre_montant"></div></div></form><div class="row end_button"><button class="waves-effect waves-teal btn-flat" id="valider_don">Valider le don</button></div></div>' + '<div class="row"><button class="waves-effect waves-teal btn-flat" id="test">TEST</button></div>' + '<div class="row" id="widget"></div>');
+        $('#the_body').html('<img class="responsive-img" src="img/logo.png" alt="logo_etoile_de_martin"><nav id="slide-out" class="side-nav"><div id="menu_nav"><div id="menu_connection"></div><div id="menu_parrain"></div></div></nav><a href="#" class="button-collapse" id="menu" data-activates="slide-out"><i class="material-icons medium">perm_identity</i></a><div class="row"><div class="col s12" id="user"></div></div><div class="row"><h1>Bienvenue sur l’appli « Un geste solidaire » pour l’Etoile de Martin pour soutenir la recherche sur les cancers de l’enfant</h1><h2>Pour faire un don, merci de remplir le formulaire</h2></div><div class="row"><div class="col s12" id="div_error"></div></div><div class="row"><form class="col s12"><div class="row"><div class="input-field col s12"><i class="material-icons prefix">account_circle</i><input id="user_nom" type="text"><label for="user_nom">Nom</label></div><div class="input-field col s12"><i class="material-icons prefix">account_box</i><input id="user_prenom" type="text"><label for="user_prenom">Prenom</label></div><div class="input-field col s12"><i class="material-icons prefix">email</i><input id="user_email" type="email"><label for="user_email">Email</label></div><div class="input-field col s12"><i class="material-icons prefix">location_on</i><input id="user_adress" type="text"><label for="user_adress">Adresse</label></div><div class="input-field col s12"><i class="material-icons prefix">location_city</i><input id="user_ville" type="text"><label for="user_ville">Ville</label></div><div class="input-field col s12"><i class="material-icons prefix">location_city</i><input id="user_code_postal" type="number"><label for="user_code_postal">Code Postal</label></div><div class="input-field col s12"><i class="material-icons prefix">account_balance</i><input id="user_pays" type="text"><label for="user_pays">Pays</label></div><div class="input-field col s12"><i class="material-icons prefix">phone</i><input id="user_tel" type="tel"><label for="user_tel">Numero de Telephone (Facultatif)</label></div><div class="input-field col s12"><select id="montant_don"><option value="10">10€</option><option value="20">20€</option><option value="30">30€</option><option value="autre">autre montant</option></select><label>Montant du don</label></div><div id="input_autre_montant"></div></div></form><div class="row end_button"><button class="waves-effect waves-teal btn-flat" id="valider_don">Valider le don</button></div></div>' + '<div class="row"><button class="waves-effect waves-teal btn-flat" id="test">TEST</button></div>' + '<div class="row" id="widget"></div>');
         $("#menu").sideNav();
         make_nav_work();
         $('select').material_select();
         hello_asso_widget = $('<iframe/>', {
             id:'mfgWidget',
             src:'https://www.helloasso.com/associations/l-etoile-de-martin/formulaire-don',
-            style:'width:' + window_width + 'px;height: ' + window_height + 'px;border:none;'
+            style:'width:' + window_width + 'px;height: ' + window_height + 'px;border:none;',
+            load: function () {}
         });
         $('#widget').append(hello_asso_widget);
     }
     $(document).on('click', '#retour_choix_invation', function() {
-        // $('#the_body').html('<img class="responsive-img" src="img/logo.png" alt="logo_etoile_de_martin"><nav id="slide-out" class="side-nav"><div id="menu_nav"><div id="menu_connection"></div><div id="menu_parrain"></div></div></nav><a href="#" class="button-collapse" id="menu" data-activates="slide-out"><i class="material-icons medium">perm_identity</i></a><div id="check_if_parrain"></div>');
-        // $("#menu").sideNav();
-        // make_nav_work();
         check_if_parrain();
     });
     $(document).on('click', '#oui_parrain', function() {
@@ -85,14 +83,15 @@ $(document).ready(function () {
         make_nav_work();
     });
     $(document).on('click', '#test', function(event) {
-        $("#mfgWidget").contents().find("#societe").css('display', 'none');
+        /*$("#mfgWidget").contents().find("#societe").css('display', 'none');
         $("#mfgWidget").contents().find("#ctl09_prenom").val("ismail");
         $("#mfgWidget").contents().find("#ctl09_nom").val("aydogmus");
         $("#mfgWidget").contents().find("#ctl09_email").val("noatsuki@gmail.com");
         $("#mfgWidget").contents().find("#ctl09_adresse").val('8 Résidence le bosquet');
         $("#mfgWidget").contents().find("#ctl09_ville").val("les ulis");
         $("#mfgWidget").contents().find("#ctl09_payscommentaire").val("love cordova pls !!");
-        alert($("#mfgWidget").contents().find("#ctl09_prenom").val());
+        alert($("#mfgWidget").contents().find("#ctl09_prenom").val());*/
+        $("#mfgWidget").contents().find("#option0").prop('checked', true);
         event.preventDefault();
     });
     function check_parrain_email () {
@@ -210,15 +209,15 @@ $(document).ready(function () {
         go_form_don();
     });
     $(document).on('click', '#connexion', function() {
-        change_to_valide("user_email");
+        change_to_valide("user_email_connexion");
         $("#div_error").html('');
-        user_email = $.trim($('#user_email').val());
+        user_email = $.trim($('#user_email_connexion').val());
         user_pass = $("#user_pass").val();
         choose_user_email = false;
         error_connexion = "";
         if (user_email === "") {
             error_connexion = error_connexion + '<p>Email vide !!</p>';
-            change_to_invalide("user_email");
+            change_to_invalide("user_email_connexion");
         }
         if (user_email !== "") {
             if (user_email.split('@').length === 2) {
@@ -227,15 +226,15 @@ $(document).ready(function () {
                         choose_user_email = true;
                     } else {
                         error_connexion = error_connexion + '<p>Email non valide !!</p>';
-                        change_to_invalide("user_email");
+                        change_to_invalide("user_email_connexion");
                     }
                 } else {
                     error_connexion = error_connexion + '<p>Email non valide !!</p>';
-                    change_to_invalide("user_email");
+                    change_to_invalide("user_email_connexion");
                 }
             } else {
                 error_connexion = error_connexion + '<p>Email non valide !!</p>';
-                change_to_invalide("user_email");
+                change_to_invalide("user_email_connexion");
             }
         }
         if (user_pass === "") {
@@ -268,6 +267,9 @@ $(document).ready(function () {
         change_to_valide("user_nom");
         change_to_valide("user_prenom");
         change_to_valide("user_adress");
+        change_to_valide("user_ville");
+        change_to_valide("user_code_postal");
+        change_to_valide("user_pays");
         change_to_valide("user_email");
         change_to_valide("user_pass");
         change_to_valide("user_pass_valider");
@@ -366,6 +368,16 @@ $(document).ready(function () {
         }
     });
     $(document).on('change', '#montant_don', function() {
+        if ($(this).val() === "10") {
+            $("#mfgWidget").contents().find("#ctl09_rptOptionsDon_option_0").children('td').children('input').prop('checked', true);
+        }
+        if ($(this).val() === "20") {
+            $("#mfgWidget").contents().find("#ctl09_rptOptionsDon_option_2").children('td').children('input').prop('checked', true);
+        }
+        if ($(this).val() === "30") {
+            $("#mfgWidget").contents().find("#ctl09_optionMontantLibre").children('td').children('input').prop('checked', true);
+            $("#mfgWidget").contents().find("#montantLibreUnique").val('30');
+        }
         if ($(this).val() === "autre") {
             $('#input_autre_montant').html('<div class="input-field col s12"><i class="material-icons prefix">€</i><input id="don" type="number"><label for="don">Montant du don</label></div>');
         }
@@ -374,11 +386,19 @@ $(document).ready(function () {
         change_to_valide("user_nom");
         change_to_valide("user_prenom");
         change_to_valide("user_email");
+        change_to_valide("user_adress");
+        change_to_valide("user_ville");
+        change_to_valide("user_code_postal");
+        change_to_valide("user_pays");
         change_to_valide("user_don");
         $('#div_error').html('');
         user_nom = $('#user_nom').val();
         user_prenom = $('#user_prenom').val();
         user_email = $('#user_email').val();
+        user_adress = $.trim($("#user_adress").val());
+        user_ville = $.trim($("#user_ville").val());
+        user_code_postal = $.trim($("#user_code_postal").val());
+        user_pays = $.trim($("#user_pays").val());
         user_tel = $('#user_tel').val();
         if ($('#don').val() === "" || $('#don').val() < 1 || $('#don').val() == undefined) {
             don = $('#montant_don option:selected').val();
@@ -400,10 +420,47 @@ $(document).ready(function () {
             error_message = error_message + '<p>Vous devez ecrire votre email</p>';
             error_count = error_count + 1;
         }
+        if (user_adress === "") {
+            change_to_invalide("user_adress");
+            user_inscription_error = user_inscription_error + "<p>Vous devez ecrire votre adresse !!</p>"
+        }
+        if (user_ville === "") {
+            change_to_invalide("user_ville");
+            user_inscription_error = user_inscription_error + "<p>Vous devez ecrire votre ville !!</p>"
+        }
+        if (user_code_postal === "") {
+            change_to_invalide("user_code_postal");
+            user_inscription_error = user_inscription_error + "<p>Vous devez ecrire votre code postal!!</p>"
+        }
+        if (user_pays === "") {
+            change_to_invalide("user_pays");
+            user_inscription_error = user_inscription_error + "<p>Vous devez ecrire votre pays !!</p>"
+        }
         if ($.trim(don) < 1 || $.trim(don) === "autre") {
             change_to_invalide('don');
             error_message = error_message + '<p>Vous devez ecrire le montant de votre don</p>';
-            error_count = error_count + 1;            
+            error_count = error_count + 1;
+        }
+        if (user_email !== "") {
+            if (user_email.split('@').length === 2) {
+                if (user_email.split('@')[0] !== "" && user_email.split('@')[1] !== "") {
+                    if (user_email.split('@')[1].split(".").length > 1) {
+                        choose_user_email = true;
+                    } else {
+                        user_inscription_error = user_inscription_error + '<p>Email non valide !!</p>';
+                        change_to_invalide("user_email_connexion");
+                        error_count = error_count + 1;
+                    }
+                } else {
+                    user_inscription_error = user_inscription_error + '<p>Email non valide !!</p>';
+                    change_to_invalide("user_email_connexion");
+                    error_count = error_count + 1;
+                }
+            } else {
+                user_inscription_error = user_inscription_error + '<p>Email non valide !!</p>';
+                change_to_invalide("user_email_connexion");
+                error_count = error_count + 1;
+            }
         }
         if (error_count !== 0) {
             $(this).css('background-color', '#FF0000');
@@ -412,12 +469,7 @@ $(document).ready(function () {
             error_message = "";
             error_count = 0;
         } else {
-            console.log("nom = " + user_nom);
-            console.log("prenom = " + user_prenom);
-            console.log("email = " + user_email);
-            console.log("tel = " + user_tel);
-            console.log("don = " + don);
-            //faire la requete ajax pour envoyer le don + simulate click pour le formulaire iframe
+            alert("nom = " + user_nom + " prenom = " + user_prenom + " email = " + user_email + " adresse = " + user_adress + " ville = " + user_ville + " code postal = " + user_code_postal + " pays = " + user_pays + " tel = " + user_tel + " don = " + don );
         }
     });
 });
