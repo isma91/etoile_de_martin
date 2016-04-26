@@ -3,12 +3,19 @@
 /*global $, jQuery*/
 /*minifier le code => + perf !!*/
 $(document).ready(function () {
-    var user_nom, user_prenom, user_email, user_tel, parrain_email, don, error_message, error_count, user_pass, user_pass_valider, user_adress, user_newsletter, user_inscription_error, error_check_parrain, hello_asso_widget, window_width, window_height, user_ville, user_code_postal, user_pays, parrain_email_change, choose_parrain_email_change, error_check_parrain;
+    var user_nom, user_prenom, user_email, user_tel, parrain_email, don, error_message, error_count, user_pass, user_pass_valider, user_adress, user_newsletter, user_inscription_error, error_check_parrain, hello_asso_widget, window_width, window_height, user_ville, user_code_postal, user_pays, parrain_email_change, choose_parrain_email_change, error_check_parrain, connection_status;
     error_message = "";
     error_count = 0;
     window_width = $(window).width();
     window_height = $(window).height();
+    connection_status = navigator.onLine;
     
+    setInterval(function () {
+        if (connection_status === false) {
+            Materialize.toast('<p class="alert-failed">Pas de connexion internet !!<p>', 7000, 'rounded alert-failed');
+        }
+    }, 5000);
+
     function make_nav_work () {
         if (localStorage.getItem("etoile_de_martin_user_email") === null) {
             $('#menu_connection').html('<h1>Bienvenue dans la page de connexion !!</h1><h2>Veuillez remplir le formulaire pour vous connectez</h2><div class="row" id="div_error"></div><div class="input-field col s12"><i class="material-icons prefix">email</i><input id="user_email" type="email" placeholder="email"></div><div class="input-field col s12"><i class="mdi-action-lock-outline prefix"></i><input id="user_pass" type="password" placeholder="Mot de passe"></div><button class="waves-effect waves-teal btn-flat" id="connexion">Connexion</button>');
