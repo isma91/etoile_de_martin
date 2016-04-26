@@ -3,33 +3,35 @@
 /*global $, jQuery*/
 /*minifier le code => + perf !!*/
 $(document).ready(function () {
-    var user_nom, user_prenom, user_email, user_tel, parrain_email, don, error_message, error_count, user_pass, user_pass_valider, user_adress, user_newsletter, user_inscription_error, error_check_parrain, hello_asso_widget, window_width, window_height, user_ville, user_code_postal, user_pays;
+    var user_nom, user_prenom, user_email, user_tel, parrain_email, don, error_message, error_count, user_pass, user_pass_valider, user_adress, user_newsletter, user_inscription_error, error_check_parrain, hello_asso_widget, window_width, window_height, user_ville, user_code_postal, user_pays, parrain_email_change, choose_parrain_email_change, error_check_parrain;
     error_message = "";
     error_count = 0;
     window_width = $(window).width();
     window_height = $(window).height();
     
-    $("#menu").sideNav();
     function make_nav_work () {
         if (localStorage.getItem("etoile_de_martin_user_email") === null) {
-            $('#menu_connection').html('<li><h1>Bienvenue dans la page de connexion !!</h1></li><li><h2>Veuillez remplir le formulaire pour vous connectez</h2></li><li><div class="row" id="div_error"></div></li><li><div class="input-field col s12"><i class="material-icons prefix">email</i><input id="user_email" type="email" placeholder="email"></div></li><li><div class="input-field col s12"><i class="mdi-action-lock-outline prefix"></i><input id="user_pass" type="password" placeholder="Mot de passe"></div></li><li><button class="waves-effect waves-teal btn-flat" id="connexion">Connexion</button></li>');
+            $('#menu_connection').html('<h1>Bienvenue dans la page de connexion !!</h1><h2>Veuillez remplir le formulaire pour vous connectez</h2><div class="row" id="div_error"></div><div class="input-field col s12"><i class="material-icons prefix">email</i><input id="user_email" type="email" placeholder="email"></div><div class="input-field col s12"><i class="mdi-action-lock-outline prefix"></i><input id="user_pass" type="password" placeholder="Mot de passe"></div><button class="waves-effect waves-teal btn-flat" id="connexion">Connexion</button>');
         } else {
-            $('#menu_connection').html('<li>' + localStorage.getItem("etoile_de_martin_user_email"));
+            $('#menu_connection').html('Bienvenue ' + localStorage.getItem("etoile_de_martin_user_email") + ' !!');
         }
         if (localStorage.getItem("etoile_de_martin_parrain_email") === null) {
-            $('#menu_parrain').html('<p>Pas de parrain</p>');
+            $('#menu_parrain').html('<div class="row"><h1>Pas de parrain !!</h1></div>');
         } else {
-            $('#menu_parrain').html('<li>Parrain = ' + localStorage.getItem("etoile_de_martin_parrain_email") + '</li>');
+            $('#menu_parrain').html('<div class="row"><h1>Parrain :</h1> <p>' + localStorage.getItem("etoile_de_martin_parrain_email") + '</p></div><div class="row col s12" id="div_error_parrain_change"></div><div class="input-field col s12"><i class="material-icons prefix">email</i><input id="parrain_email_change" type="email" placeholder="Email du parrain"></div><div class="row end_button"><button class="waves-effect waves-teal btn-flat" id="changer_parrain">Changer de Parrain</button></div>');
         }
     }
 
     function check_if_parrain () {
         if (localStorage.getItem("etoile_de_martin_parrain_email") === null) {
-            $('#check_if_parrain').html('<div class="row end_button"><h1>Vous n\'avez pas de parrain !! Voulez-vous en ajouter ?</h1><button class="waves-effect waves-teal btn-flat" id="non_parrain">Non</button><button class="waves-effect waves-teal btn-flat" id="oui_parrain">Oui</button></div>');
+            $('#the_body').html('<img class="responsive-img" src="img/logo.png" alt="logo_etoile_de_martin"><nav id="slide-out" class="side-nav"><div id="menu_nav"><div id="menu_connection"></div><div id="menu_parrain"></div></div></nav><a href="#" class="button-collapse" id="menu" data-activates="slide-out"><i class="material-icons medium">perm_identity</i></a><div class="row end_button"><h1>Vous n\'avez pas de parrain !! Voulez-vous en ajouter ?</h1><button class="waves-effect waves-teal btn-flat" id="non_parrain">Non</button><button class="waves-effect waves-teal btn-flat" id="oui_parrain">Oui</button></div>');
+            $("#menu").sideNav();
+            make_nav_work();
+        } else {
+            go_form_don();
         }
     }
 
-    make_nav_work();
     check_if_parrain();
     localStorage.clear();
     //console.log(localStorage);
@@ -57,9 +59,9 @@ $(document).ready(function () {
         $('#widget').append(hello_asso_widget);
     }
     $(document).on('click', '#retour_choix_invation', function() {
-        $('#the_body').html('<img class="responsive-img" src="img/logo.png" alt="logo_etoile_de_martin"><nav id="slide-out" class="side-nav"><div id="menu_nav"><div id="menu_connection"></div><div id="menu_parrain"></div></div></nav><a href="#" class="button-collapse" id="menu" data-activates="slide-out"><i class="material-icons medium">perm_identity</i></a><div id="check_if_parrain"></div>');
-        $("#menu").sideNav();
-        make_nav_work();
+        // $('#the_body').html('<img class="responsive-img" src="img/logo.png" alt="logo_etoile_de_martin"><nav id="slide-out" class="side-nav"><div id="menu_nav"><div id="menu_connection"></div><div id="menu_parrain"></div></div></nav><a href="#" class="button-collapse" id="menu" data-activates="slide-out"><i class="material-icons medium">perm_identity</i></a><div id="check_if_parrain"></div>');
+        // $("#menu").sideNav();
+        // make_nav_work();
         check_if_parrain();
     });
     $(document).on('click', '#oui_parrain', function() {
@@ -136,6 +138,56 @@ $(document).ready(function () {
             });
         }
     }
+    function check_parrain_change_email () {
+        change_to_valide("parrain_email_change");
+        $("#div_error_parrain_change").html('');
+        parrain_email_change = $.trim($('#parrain_email_change').val());
+        choose_parrain_email_change = false;
+        error_check_parrain = "";
+        if (parrain_email_change === "") {
+            error_check_parrain = error_check_parrain + '<p>Email vide !!</p>';
+            change_to_invalide("parrain_email_change");
+        }
+        if (parrain_email_change !== "") {
+            if (parrain_email_change.split('@').length === 2) {
+                if (parrain_email_change.split('@')[0] !== "" && parrain_email_change.split('@')[1] !== "") {
+                    if (parrain_email_change.split('@')[1].split(".").length > 1) {
+                        choose_parrain_email_change = true;
+                    } else {
+                        error_check_parrain = error_check_parrain + '<p>Email non valide !!</p>';
+                        change_to_invalide("parrain_email_change");
+                    }
+                } else {
+                    error_check_parrain = error_check_parrain + '<p>Email non valide !!</p>';
+                    change_to_invalide("parrain_email_change");
+                }
+            } else {
+                error_check_parrain = error_check_parrain + '<p>Email non valide !!</p>';
+                change_to_invalide("parrain_email_change");
+            }
+        }
+        $("#div_error_parrain_change").html(error_check_parrain);
+        if (choose_parrain_email_change === true) {
+            $.post(path_to_ajax, {action: 'check_parrain', parrain_email: parrain_email_change}, function (data, textStatus) {
+                if (textStatus === "success") {
+                    data = JSON.parse(data);
+                    console.log(data);
+                    if (data.error === null) {
+                        if (data.data === localStorage.getItem("etoile_de_martin_user_email")) {
+                            localStorage.getItem("etoile_de_martin_parrain_email", "");
+                            Materialize.toast('<p class="alert-failed">Vous ne pouvez pas etre le parrain de vous meme !!<p>', 7000, 'rounded alert-failed');
+                        } else {
+                            localStorage.setItem("etoile_de_martin_parrain_email", data.data);
+                            Materialize.toast('<p class="alert-success">L\'email ' + data.data + ' a bien été ajouter comme votre parrain ! Vous pouvez changer votre parrain a tout moment via votre profil !!<p>', 7000, 'rounded alert-success');
+                            make_nav_work();
+                        }
+                    } else {
+                        Materialize.toast('<p class="alert-failed">' + data.error + '<p>', 7000, 'rounded alert-failed');
+                    }
+                }
+            });
+        }
+    }
     $(document).on('keyup', '#parrain_email', function (event) {
         if (event.keyCode === 13) {
             check_parrain_email();
@@ -143,6 +195,9 @@ $(document).ready(function () {
     });
     $(document).on('click', '#valider_parrain', function() {
         check_parrain_email();
+    });
+    $(document).on('click', '#changer_parrain', function() {
+        check_parrain_change_email();
     });
     $(document).on('click', '#go_form_don', function() {
         go_form_don();
