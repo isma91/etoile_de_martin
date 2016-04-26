@@ -1,21 +1,43 @@
 ﻿/*jslint browser: true, node : true*/
 /*jslint devel : true*/
 /*global $, jQuery*/
-/* minifier le code => + perf !! */
+/*minifier le code => + perf !!*/
 $(document).ready(function () {
     var user_nom, user_prenom, user_email, user_tel, parrain_email, don, error_message, error_count, user_pass, user_pass_valider, user_adress, user_newsletter, user_inscription_error, error_check_parrain, hello_asso_widget, window_width, window_height, user_ville, user_code_postal, user_pays;
     error_message = "";
     error_count = 0;
     window_width = $(window).width();
     window_height = $(window).height();
-    //localStorage.clear();
-    //console.log(localStorage);
-    //changer cette valeur pour mettre le path du server de l'association
     
+    $("#menu").sideNav();
+    function make_nav_work () {
+        if (localStorage.getItem("etoile_de_martin_user_email") === null) {
+            $('#menu_connection').html('<li><h1>Bienvenue dans la page de connexion !!</h1></li><li><h2>Veuillez remplir le formulaire pour vous connectez</h2></li><li><div class="row" id="div_error"></div></li><li><div class="input-field col s12"><i class="material-icons prefix">email</i><input id="user_email" type="email" placeholder="email"></div></li><li><div class="input-field col s12"><i class="mdi-action-lock-outline prefix"></i><input id="user_pass" type="password" placeholder="Mot de passe"></div></li><li><button class="waves-effect waves-teal btn-flat" id="connexion">Connexion</button></li>');
+        } else {
+            $('#menu_connection').html('<li>' + localStorage.getItem("etoile_de_martin_user_email"));
+        }
+        if (localStorage.getItem("etoile_de_martin_parrain_email") === null) {
+            $('#menu_parrain').html('<p>Pas de parrain</p>');
+        } else {
+            $('#menu_parrain').html('<li>Parrain = ' + localStorage.getItem("etoile_de_martin_parrain_email") + '</li>');
+        }
+    }
+
+    function check_if_parrain () {
+        if (localStorage.getItem("etoile_de_martin_parrain_email") === null) {
+            $('#check_if_parrain').html('<div class="row end_button"><h1>Vous n\'avez pas de parrain !! Voulez-vous en ajouter ?</h1><button class="waves-effect waves-teal btn-flat" id="non_parrain">Non</button><button class="waves-effect waves-teal btn-flat" id="oui_parrain">Oui</button></div>');
+        }
+    }
+
+    make_nav_work();
+    check_if_parrain();
+    localStorage.clear();
+    //console.log(localStorage);
+    
+    //changer cette valeur pour mettre le path du server de l'association
     path_to_ajax = 'http://localhost.ismaydogmus.fr/api/public/index.php';
     //path_to_ajax = '../api/public/index.php';
-    
-    //a ajouter lorsqu'on charge le widget de helloAsso
+
     function change_to_invalide (id_selector) {
         $('#' + id_selector).css('border-bottom', '1px solid #FF0000');
     }
@@ -23,7 +45,10 @@ $(document).ready(function () {
         $('#' + id_selector).css('border-bottom', '1px solid #9e9e9e');
     }
     function go_form_don () {
-        $('#the_body').html('<img class="responsive-img" src="img/logo.png" alt="logo_etoile_de_martin">' + '<div class="row"><button class="waves-effect waves-teal btn-flat" id="test">TEST</button></div>' + '<div class="row" id="widget"></div>');
+        $('#the_body').html('<img class="responsive-img" src="img/logo.png" alt="logo_etoile_de_martin"><nav id="slide-out" class="side-nav"><div id="menu_nav"><div id="menu_connection"></div><div id="menu_parrain"></div></div></nav><a href="#" class="button-collapse" id="menu" data-activates="slide-out"><i class="material-icons medium">perm_identity</i></a><div class="row"><div class="col s12" id="user"></div></div><div class="row"><h1>Bienvenue sur l’appli « Un geste solidaire » pour l’Etoile de Martin pour soutenir la recherche sur les cancers de l’enfant</h1><h2>Pour faire un don, merci de remplir le formulaire</h2></div><div class="row"><div class="col s12" id="div_error"></div></div><div class="row"><form class="col s12"><div class="row"><div class="input-field col s12"><i class="material-icons prefix">account_circle</i><input id="user_nom" type="text"><label for="user_nom">Nom</label></div><div class="input-field col s12"><i class="material-icons prefix">account_box</i><input id="user_prenom" type="text"><label for="user_prenom">Prenom</label></div><div class="input-field col s12"><i class="material-icons prefix">email</i><input id="user_email" type="email"><label for="user_email">Email</label></div><div class="input-field col s12"><i class="material-icons prefix">phone</i><input id="user_tel" type="tel"><label for="user_tel">Numero de Telephone (Facultatif)</label></div><div class="input-field col s12"><select id="montant_don"><option value="10">10€</option><option value="20">20€</option><option value="30">30€</option><option value="autre">autre montant</option></select><label>Montant du don</label></div><div id="input_autre_montant"></div></div></form><div class="row end_button"><button class="waves-effect waves-teal btn-flat" id="valider_don">Valider le don</button></div></div>' + '<div class="row"><button class="waves-effect waves-teal btn-flat" id="test">TEST</button></div>' + '<div class="row" id="widget"></div>');
+        $("#menu").sideNav();
+        make_nav_work();
+        $('select').material_select();
         hello_asso_widget = $('<iframe/>', {
             id:'mfgWidget',
             src:'https://www.helloasso.com/associations/l-etoile-de-martin/formulaire-don',
@@ -32,30 +57,26 @@ $(document).ready(function () {
         $('#widget').append(hello_asso_widget);
     }
     $(document).on('click', '#retour_choix_invation', function() {
-        $('#the_body').html('<img class="responsive-img" src="img/logo.png" alt="logo_etoile_de_martin"><div class="row end_button"><h1>Avez-vous été invité ?</h1><button class="waves-effect waves-teal btn-flat" id="non_parrain">Non</button><button class="waves-effect waves-teal btn-flat" id="oui_parrain">Oui</button></div>');
+        $('#the_body').html('<img class="responsive-img" src="img/logo.png" alt="logo_etoile_de_martin"><nav id="slide-out" class="side-nav"><div id="menu_nav"><div id="menu_connection"></div><div id="menu_parrain"></div></div></nav><a href="#" class="button-collapse" id="menu" data-activates="slide-out"><i class="material-icons medium">perm_identity</i></a><div id="check_if_parrain"></div>');
+        $("#menu").sideNav();
+        make_nav_work();
+        check_if_parrain();
     });
     $(document).on('click', '#oui_parrain', function() {
-        $('#the_body').html('<img class="responsive-img" src="img/logo.png" alt="logo_etoile_de_martin"><div class="row col s12"><h1>Veuillez ecrire l\'email du parrain</h1></div><div class="row col s12" id="div_error_parrain"></div><div class="input-field col s12"><i class="material-icons prefix">email</i><input id="parrain_email" type="email"><label for="parrain_email">Email du Parrain</label></div><div class="row end_button"><button class="waves-effect waves-teal btn-flat" id="valider_parrain">Valider le Parrain</button><button class="waves-effect waves-teal btn-flat" id="retour_choix_invation">Retour au choix de l\'invitation</button><div id="after_check"></div></div>');
+        $('#the_body').html('<img class="responsive-img" src="img/logo.png" alt="logo_etoile_de_martin"><nav id="slide-out" class="side-nav"><div id="menu_nav"><div id="menu_connection"></div><div id="menu_parrain"></div></div></nav><a href="#" class="button-collapse" id="menu" data-activates="slide-out"><i class="material-icons medium">perm_identity</i></a><div class="row col s12"><h1>Veuillez ecrire l\'email du parrain</h1></div><div class="row col s12" id="div_error_parrain"></div><div class="input-field col s12"><i class="material-icons prefix">email</i><input id="parrain_email" type="email"><label for="parrain_email">Email du Parrain</label></div><div class="row end_button"><button class="waves-effect waves-teal btn-flat" id="valider_parrain">Valider le Parrain</button><button class="waves-effect waves-teal btn-flat" id="retour_choix_invation">Retour au choix de l\'invitation</button><button class="waves-effect waves-teal btn-flat" id="go_form_don">Acceder au formulaire de don</button></div>');
+        $("#menu").sideNav();
+        make_nav_work();
     });
     $(document).on('click', '#non_parrain', function() {
         go_form_don();
-    });
-    $(document).on('click', '#non_parrain', function() {
-        go_form_don();
-        $('#the_body').html('<img class="responsive-img" src="img/logo.png" alt="logo_etoile_de_martin"><div class="row"><div class="col s12" id="user"></div></div><div class="row"><h1>Bienvenue sur l’appli « Un geste solidaire » pour l’Etoile de Martin pour soutenir la recherche sur les cancers de l’enfant</h1><h2>Pour faire un don, merci de vous identifier</h2></div><div class="row"><div class="col s12" id="div_error"></div></div><div class="row"><form class="col s12"><div class="row"><div class="input-field col s12"><i class="material-icons prefix">account_circle</i><input id="user_nom" type="text"><label for="user_nom">Nom</label></div><div class="input-field col s12"><i class="material-icons prefix">account_box</i><input id="user_prenom" type="text"><label for="user_prenom">Prenom</label></div><div class="input-field col s12"><i class="material-icons prefix">email</i><input id="user_email" type="email"><label for="user_email">Email</label></div><div class="input-field col s12"><i class="material-icons prefix">phone</i><input id="user_tel" type="tel"><label for="user_tel">Numero de Telephone (Facultatif)</label></div><div class="input-field col s12"><select id="montant_don"><option value="10">10€</option><option value="20">20€</option><option value="30">30€</option><option value="autre">autre montant</option></select><label>Montant du don</label></div><div id="input_autre_montant"></div></div></form><div class="row end_button"><button class="waves-effect waves-teal btn-flat" id="valider_don">Valider le don</button><button class="waves-effect waves-teal btn-flat" id="retour_choix_invation">Retour au choix de l\'invitation</button></div></div>');
-        $('select').material_select();
-    });
-    $(document).on('click', '#yes_compte', function(event) {
-        $('#the_body').html('<div class="row"><div class="col s12" id="div_error"></div></div><div class="input-field col s12"><img class="responsive-img" src="img/logo.png" alt="logo_etoile_de_martin" /></div><div class="row"><h1>Bienvenue dans la page de connexion !!</h1><h2>Veuillez remplir le formulaire pour vous connectez</h2></div><div class="row"><div class="input-field col s12"><i class="material-icons prefix">email</i><input id="user_email" type="email"><label for="user_email">Email</label></div></div><div class="row"><div class="input-field col s12"><i class="mdi-action-lock-outline prefix"></i><input id="user_pass" type="password"><label for="user_pass">Mot de Passe</label></div></div><div class="row"><button class="waves-effect waves-teal btn-flat" id="connexion">Connexion</button><button class="waves-effect waves-teal btn-flat" id="retour_choix_invation">Retour au choix de l\'invitation</button></div>');
     });
     $(document).on('click', '#non_compte', function() {
         $('#the_body').html('<img class="responsive-img" src="img/logo.png" alt="logo_etoile_de_martin"><h1>Bienvenue sur la page d\'inscription !!</h1><h2>Nous vous proposons de vous inscrire afin de pouvoir faire des dons plus rapidement et plus simplement !</h2><div class="row"><div class="col s12" id="div_error"></div></div><div class="row"><form class="col s12"><div class="row"><div class="input-field col s12"><i class="material-icons prefix">account_circle</i><input id="user_nom" type="text"><label for="user_nom">Nom</label></div><div class="input-field col s12"><i class="material-icons prefix">account_box</i><input id="user_prenom" type="text"><label for="user_prenom">Prenom</label></div><div class="input-field col s12"><i class="material-icons prefix">location_on</i><input id="user_adress" type="text"><label for="user_adress">Adresse</label></div><div class="input-field col s12"><i class="material-icons prefix">location_city</i><input id="user_ville" type="text"><label for="user_ville">Ville</label></div><div class="input-field col s12"><i class="material-icons prefix">location_city</i><input id="user_code_postal" type="number"><label for="user_code_postal">Code Postal</label></div><div class="input-field col s12"><i class="material-icons prefix">account_balance</i><input id="user_pays" type="text"><label for="user_pays">Pays</label></div><div class="input-field col s12"><i class="material-icons prefix">email</i><input id="user_email" type="email"><label for="user_email">Email</label></div><div class="input-field col s12"><i class="material-icons prefix">vpn_key</i><input id="user_pass" type="password"><label for="user_pass">Mot de passe</label></div><div class="input-field col s12"><i class="material-icons prefix">vpn_key</i><input id="user_pass_valider" type="password"><label for="user_pass_valider">Valider mot de passe</label></div><div class="input-field col s12"><i class="material-icons prefix">phone</i><input id="user_tel" type="tel"><label for="user_tel">Numero de Telephone (Facultatif)</label></div><div class="input-field col s12"><input id="newsletter" type="checkbox" name="newsletter" value="1"><label for="newsletter">s\'abonner a la newsletter</label></div></div></form><div class="row"><button class="waves-effect waves-teal btn-flat" id="valider_inscription">Valider l\'inscription</button><button class="waves-effect waves-teal btn-flat" id="retour_choix_invation">Retour au choix de l\'invitation</button></div></div>');
-    });
-    $(document).on('click', '#retour_choix_compte', function(event) {
-        $("#the_body").html('<img class="responsive-img" src="img/logo.png" alt="logo_etoile_de_martin"><div class="row" id="demande_inscription_connexion"><h1>Bienvenue sur l’appli « Un geste solidaire » pour l’Etoile de Martin</h1><h2>Avez-vous déjà un compte ?</h2><button class="waves-effect waves-teal btn-flat" id="no_compte">Non</button><button class="waves-effect waves-teal btn-flat" id="yes_compte">Oui</button></div>');
+        $("#menu").sideNav();
+        make_nav_work();
     });
     $(document).on('click', '#test', function(event) {
-        $("#mfgWidget").contents().find("#societe");
+        $("#mfgWidget").contents().find("#societe").css('display', 'none');
         $("#mfgWidget").contents().find("#ctl09_prenom").val("ismail");
         $("#mfgWidget").contents().find("#ctl09_nom").val("aydogmus");
         $("#mfgWidget").contents().find("#ctl09_email").val("noatsuki@gmail.com");
@@ -65,7 +86,7 @@ $(document).ready(function () {
         alert($("#mfgWidget").contents().find("#ctl09_prenom").val());
         event.preventDefault();
     });
-    function check_parrain_email () {   
+    function check_parrain_email () {
         change_to_valide("parrain_email");
         $("#div_error_parrain").html('');
         parrain_email = $.trim($('#parrain_email').val());
@@ -98,20 +119,18 @@ $(document).ready(function () {
             $.post(path_to_ajax, {action: 'check_parrain', parrain_email: parrain_email}, function (data, textStatus) {
                 if (textStatus === "success") {
                     data = JSON.parse(data);
+                    console.log(data);
                     if (data.error === null) {
                         if (data.data === localStorage.getItem("etoile_de_martin_user_email")) {
                             localStorage.getItem("etoile_de_martin_parrain_email", "");
                             Materialize.toast('<p class="alert-failed">Vous ne pouvez pas etre le parrain de vous meme !!<p>', 7000, 'rounded alert-failed');
                         } else {
                             localStorage.setItem("etoile_de_martin_parrain_email", data.data);
-                            Materialize.toast('<p class="alert-success">L\'email ' + data.data + ' a bien été ajouter comme votre parrain ! Vous pouvez changer votre parrain a tout moment via votre profil !!<p>', 3000, 'rounded alert-success');
-                            setTimeout(function () {
-                                go_form_don();
-                            }, 3000);
+                            Materialize.toast('<p class="alert-success">L\'email ' + data.data + ' a bien été ajouter comme votre parrain ! Vous pouvez changer votre parrain a tout moment via votre profil !!<p>', 7000, 'rounded alert-success');
+                            make_nav_work();
                         }
                     } else {
                         Materialize.toast('<p class="alert-failed">' + data.error + '<p>', 7000, 'rounded alert-failed');
-                        $('#after_check').html('<div class="row"><button class="waves-effect waves-teal btn-flat" id="go_form_don">Acceder au formulaire de don</button></div>');
                     }
                 }
             });
@@ -174,6 +193,7 @@ $(document).ready(function () {
                         }
                         localStorage.setItem("etoile_de_martin_user_email", data.data.email);
                         localStorage.setItem("etoile_de_martin_user_token", data.data.token);
+                        make_nav_work();
                     } else {
                         Materialize.toast('<p class="alert-failed">' + data.error + '<p>', 3000, 'rounded alert-failed');
                     }

@@ -18,13 +18,14 @@
 <body>
   <div class="container" id="the_body">
     <img class="responsive-img" src="img/logo.png" alt="logo_etoile_de_martin">
-    <div class="row end_button">
-      <h1>Avez-vous été invité ?</h1>
-      <button class="waves-effect waves-teal btn-flat" id="non_parrain">Non</button>
-      <button class="waves-effect waves-teal btn-flat" id="oui_parrain">Oui</button>
-      <button class="waves-effect waves-teal btn-flat" id="yes_compte">yes compte</button>
-      <button class="waves-effect waves-teal btn-flat" id="non_compte">non compte</button>
-    </div>
+    <nav id="slide-out" class="side-nav">
+      <div id="menu_nav">
+        <div id="menu_connection"></div>
+        <div id="menu_parrain"></div>
+      </div>
+    </nav>
+    <a href="#" class="button-collapse" id="menu" data-activates="slide-out"><i class="material-icons medium">perm_identity</i></a>
+    <div id="check_if_parrain"></div>
   </div>
 </body>
 </html>
