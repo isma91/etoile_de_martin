@@ -73,3 +73,26 @@ h3 {
 	text-align: center;
 	background-color: #ea3e92;
 }
+nav {
+	color: #828383;
+}
+ul,
+li {
+	display: block;
+}
+#menu {
+	text-decoration: none;
+	border: none;
+	color: #ea3e92;
+	top: 0px;
+	left: 0px;
+	display: block;
+	position: absolute;
+	position: fixed;
+}
+img {
+	margin-top: 10%;
+}
+nav:focus {
+	background-color: none;
+}
