@@ -10,7 +10,7 @@ class UsersController extends User
 		echo json_encode(array('error' => $error, 'data' => $data));
 	}
 
-	public function create_user ($nom, $prenom, $adresse, $email, $pass, $tel, $newsletter) {
+	public function create_user ($nom, $prenom, $adresse, $ville, $code_postal, $pays, $email, $pass, $tel, $newsletter) {
 		if (empty($tel)) {
 			$tel = null;
 		}
@@ -25,13 +25,16 @@ class UsersController extends User
 			}
 		}
 		if ($duplicate_email === false) {
-			$sql_insert = $bdd->getBdd()->prepare("INSERT INTO users (nom, prenom, email, pass, tel, adresse, newsletter) VALUES (:nom, :prenom, :email, :pass, :tel, :adresse, :newsletter)");
+			$sql_insert = $bdd->getBdd()->prepare("INSERT INTO users (nom, prenom, email, pass, tel, adresse, ville, codePostal, pays, newsletter) VALUES (:nom, :prenom, :email, :pass, :tel, :adresse, :ville, :codePostal, :pays, :newsletter)");
 			$sql_insert->bindParam(":nom", $nom);
 			$sql_insert->bindParam(":prenom", $prenom);
 			$sql_insert->bindParam(":email", $email);
 			$sql_insert->bindParam(":pass", password_hash($pass, PASSWORD_DEFAULT));
 			$sql_insert->bindParam(":tel", $tel);
 			$sql_insert->bindParam(":adresse", $adresse);
+			$sql_insert->bindParam(":ville", $ville);
+			$sql_insert->bindParam(":codePostal", $code_postal);
+			$sql_insert->bindParam(":pays", $pays);
 			$sql_insert->bindParam(":newsletter", $newsletter);
 			if ($sql_insert->execute()) {
 				$token = sha1(time() * rand(1, 555));
