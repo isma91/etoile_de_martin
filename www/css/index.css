@@ -96,3 +96,16 @@ img {
 nav:focus {
 	background-color: none;
 }
+nav p {
+	text-align: center;
+	font-size: 1.3em;
+	font-weight: bold;
+}
+nav .input-field input:focus,
+nav .input-field input[type=text]:valid,
+nav .input-field input[type=password]:valid,
+nav .input-field input[type=email]:valid,
+nav .input-field input[type=url]:valid,
+nav .input-field input[type=date]:valid {
+	font-size: 1em;
+}
