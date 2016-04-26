@@ -6,6 +6,10 @@ class User extends Model
 {
     private $_nom;
     private $_prenom;
+    private $_adresse;
+    private $_ville;
+    private $_codePostal;
+    private $_pays;
     private $_email;
     private $_pass;
     private $_tel;
@@ -18,6 +22,15 @@ class User extends Model
     }
     public function setPrenom ($prenom) {
         $this->_prenom = $prenom;
+    }
+    public function setAdresse ($adresse) {
+        $this->_adresse = $adresse;
+    }
+    public function setVille ($ville) {
+        $this->_ville = $ville;
+    }
+    public function setCodePostal ($codePostal) {
+        $this->_codePostal = $codePostal;
     }
     public function setEmail ($email) {
         $this->_email = $email;
@@ -39,6 +52,18 @@ class User extends Model
     }
     public function getPrenom() {
         return $this->_prenom;
+    }
+    public function getAdresse() {
+        return $this->_adresse;
+    }
+    public function getVille() {
+        return $this->_ville;
+    }
+    public function getCodePostal() {
+        return $this->_codePostal;
+    }
+    public function getPays() {
+        return $this->_pays;
     }
     public function getEmail() {
         return $this->_email;
