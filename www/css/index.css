@@ -7,6 +7,8 @@ html,
 body {
 	font-family: 'Century-Gothic';
 	color : #828383;
+	border: 0;
+	margin: 0;
 }
 h1 {
 	text-align: center;
@@ -20,7 +22,6 @@ h3 {
 	text-align: center;
 	font-size: 1.3em;
 }
-
 .input-field input[type=tel] + label,
 .input-field input[type=email] + label,
 .input-field input[type=text] + label,
@@ -37,7 +38,6 @@ h3 {
 	color: #ea3e92;
 	transition:0.5s;
 }
-
 #valider_don,
 #valider_inscription,
 #login,
@@ -46,13 +46,11 @@ h3 {
 	display: block;
 	margin: auto;
 }
-
 #div_error,
 #div_error_parrain {
 	text-align: center;
 	color: #FF0000;
 }
-
 #go_login {
 	color: #ea3e92;
 	text-decoration: underline;
@@ -114,5 +112,5 @@ nav .input-field input[type=date]:valid {
 	font-size: 1.3em;
 }
 .spinner-blue, .spinner-blue-only {
-    border-color: #26a69a;
+	border-color: #26a69a;
 }
