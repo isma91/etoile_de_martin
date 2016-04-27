@@ -109,3 +109,7 @@ nav .input-field input[type=url]:valid,
 nav .input-field input[type=date]:valid {
 	font-size: 1em;
 }
+#fiscal {
+	text-align: center;
+	font-size: 1.3em;
+}
