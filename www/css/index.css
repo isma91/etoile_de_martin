@@ -113,3 +113,6 @@ nav .input-field input[type=date]:valid {
 	text-align: center;
 	font-size: 1.3em;
 }
+.spinner-blue, .spinner-blue-only {
+    border-color: #26a69a;
+}
