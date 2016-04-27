@@ -3,7 +3,7 @@
 /*global $, jQuery*/
 /*minifier le code => + perf !!*/
 $(document).ready(function () {
-    var user_nom, user_prenom, user_email, user_tel, parrain_email, don, error_message, error_count, user_pass, user_pass_valider, user_adress, user_newsletter, user_inscription_error, error_check_parrain, hello_asso_widget, window_width, window_height, user_ville, user_code_postal, user_pays, parrain_email_change, choose_parrain_email_change, error_check_parrain, connection_status, iframe_don_selected, iframe_user_info_selected, iframe_pourboire_selected;
+    var user_nom, user_prenom, user_email, user_tel, parrain_email, don, error_message, error_count, user_pass, user_pass_valider, user_adress, user_newsletter, user_inscription_error, error_check_parrain, hello_asso_widget, window_width, window_height, user_ville, user_code_postal, user_pays, parrain_email_change, choose_parrain_email_change, error_check_parrain, connection_status, iframe_don_selected, iframe_user_info_selected, iframe_pourboire_selected, check_form_don_second_step, check_form_don_third_step, check_form_don_fourth_step;
     error_message = "";
     error_count = 0;
     window_width = $(window).width();
@@ -54,8 +54,15 @@ $(document).ready(function () {
     function change_to_valide (id_selector) {
         $('#' + id_selector).css('border-bottom', '1px solid #9e9e9e');
     }
+    function check_form_don (id_iframe, id_input) {
+        if ($(id_iframe).contents().find(id_input).val() === undefined) {
+            return false;
+        } else {
+            return true;
+        }
+    }
     function go_form_don () {
-        $('#the_body').html('<img class="responsive-img" src="img/logo.png" alt="logo_etoile_de_martin"><nav id="slide-out" class="side-nav"><div id="menu_nav"><div id="menu_connection"></div><div id="menu_parrain"></div></div></nav><a href="#" class="button-collapse" id="menu" data-activates="slide-out"><i class="material-icons medium">perm_identity</i></a><div class="row"><div class="col s12" id="user"></div></div><div class="row"><h1>Bienvenue sur l’appli « Un geste solidaire » pour l’Etoile de Martin pour soutenir la recherche sur les cancers de l’enfant</h1><h2>Pour faire un don, merci de remplir le formulaire</h2></div><div class="row"><div class="col s12" id="div_error"></div></div><div class="row"><form class="col s12"><div class="row"><div class="input-field col s12"><select id="user_civilite"><option value="Monsieur">Monsieur</option><option value="Madame">Madame</option></select><label>Civilité</label></div><div class="input-field col s12"><i class="material-icons prefix">account_circle</i><input id="user_nom" type="text"><label for="user_nom">Nom</label></div><div class="input-field col s12"><i class="material-icons prefix">account_box</i><input id="user_prenom" type="text"><label for="user_prenom">Prenom</label></div><div class="input-field col s12"><i class="material-icons prefix">email</i><input id="user_email" type="email"><label for="user_email">Email</label></div><div class="input-field col s12"><i class="material-icons prefix">location_on</i><input id="user_adress" type="text"><label for="user_adress">Adresse</label></div><div class="input-field col s12"><i class="material-icons prefix">location_city</i><input id="user_ville" type="text"><label for="user_ville">Ville</label></div><div class="input-field col s12"><i class="material-icons prefix">location_city</i><input id="user_code_postal" type="number"><label for="user_code_postal">Code Postal</label></div><div class="input-field col s12"><i class="material-icons prefix">account_balance</i><input id="user_pays" type="text"><label for="user_pays">Pays</label></div><div class="input-field col s12"><i class="material-icons prefix">phone</i><input id="user_tel" type="tel"><label for="user_tel">Numero de Telephone (Facultatif)</label></div><div class="input-field col s12"><select id="montant_don"><option value="10">10€</option><option value="20">20€</option><option value="30">30€</option><option value="autre">autre montant</option></select><label>Montant du don</label></div><div id="input_autre_montant"></div><div class="input-field col s12"><select id="user_anonyme"><option value="non">Non</option><option value="oui">Oui</option></select><label>Don anonyme ?</label></div></div></form><div class="row" id="fiscal"></div><div class="row end_button" id="button_valider_don"><div class="preloader-wrapper active"><div class="spinner-layer spinner-blue-only"><div class="circle-clipper left"><div class="circle"></div></div><div class="gap-patch"><div class="circle"></div></div><div class="circle-clipper right"><div class="circle"></div></div></div></div></div></div><div class="row" id="widget"></div>');
+        $('#the_body').html('<img class="responsive-img" src="img/logo.png" alt="logo_etoile_de_martin"><nav id="slide-out" class="side-nav"><div id="menu_nav"><div id="menu_connection"></div><div id="menu_parrain"></div></div></nav><a href="#" class="button-collapse" id="menu" data-activates="slide-out"><i class="material-icons medium">perm_identity</i></a><div class="row"><div class="col s12" id="user"></div></div><div class="row" id="div_h1_h2"><h1>Bienvenue sur l’appli « Un geste solidaire » pour l’Etoile de Martin pour soutenir la recherche sur les cancers de l’enfant</h1><h2>Pour faire un don, merci de remplir le formulaire</h2></div><div class="row"><div class="col s12" id="div_error_don"></div></div><div class="row" id="form_don"><form class="col s12"><div class="row"><div class="input-field col s12"><select id="user_civilite"><option value="Monsieur">Monsieur</option><option value="Madame">Madame</option></select><label>Civilité</label></div><div class="input-field col s12"><i class="material-icons prefix">account_circle</i><input id="user_nom" type="text"><label for="user_nom">Nom</label></div><div class="input-field col s12"><i class="material-icons prefix">account_box</i><input id="user_prenom" type="text"><label for="user_prenom">Prenom</label></div><div class="input-field col s12"><i class="material-icons prefix">email</i><input id="user_email" type="email"><label for="user_email">Email</label></div><div class="input-field col s12"><i class="material-icons prefix">location_on</i><input id="user_adress" type="text"><label for="user_adress">Adresse</label></div><div class="input-field col s12"><i class="material-icons prefix">location_city</i><input id="user_ville" type="text"><label for="user_ville">Ville</label></div><div class="input-field col s12"><i class="material-icons prefix">location_city</i><input id="user_code_postal" type="number"><label for="user_code_postal">Code Postal</label></div><div class="input-field col s12"><i class="material-icons prefix">account_balance</i><input id="user_pays" type="text"><label for="user_pays">Pays</label></div><div class="input-field col s12"><i class="material-icons prefix">phone</i><input id="user_tel" type="tel"><label for="user_tel">Numero de Telephone (Facultatif)</label></div><div class="input-field col s12"><select id="montant_don"><option value="10">10€</option><option value="20">20€</option><option value="30">30€</option><option value="autre">autre montant</option></select><label>Montant du don</label></div><div id="input_autre_montant"></div><div class="input-field col s12"><select id="user_anonyme"><option value="non">Non</option><option value="oui">Oui</option></select><label>Don anonyme ?</label></div></div></form><div class="row" id="fiscal"></div><div class="row end_button" id="button_valider_don"><div class="preloader-wrapper active"><div class="spinner-layer spinner-blue-only"><div class="circle-clipper left"><div class="circle"></div></div><div class="gap-patch"><div class="circle"></div></div><div class="circle-clipper right"><div class="circle"></div></div></div></div></div></div><div class="row" id="widget"></div>');
         $("#menu").sideNav();
         make_nav_work();
         $('select').material_select();
@@ -68,6 +75,7 @@ $(document).ready(function () {
             }
         });
         $('#widget').append(hello_asso_widget);
+        $('#widget').css('display', 'none');
     }
     $(document).on('click', '#retour_choix_invation', function() {
         check_if_parrain();
@@ -377,7 +385,7 @@ $(document).ready(function () {
         $("#fiscal").html("<p>Coût réel de votre don après déduction fiscale : " + (0.34 * $(this).val()).toFixed(2) + " €</p>");
     });
     $(document).on('click', '#valider_don', function() {
-        /*user_genre = $('#user_civilite option:selected').val();
+        user_genre = $('#user_civilite option:selected').val();
         user_nom = "Aydogmus";
         user_prenom = "Ismail";
         user_email = "noatsuki@gmail.com";
@@ -391,7 +399,7 @@ $(document).ready(function () {
         user_commentaire = "Don fait à partir de l'application 'Un geste solidaire'";
         iframe_don_selected = false;
         iframe_user_info_selected = false;
-        iframe_pourboire_selected = false;*/
+        iframe_pourboire_selected = false;
         change_to_valide("user_nom");
         change_to_valide("user_prenom");
         change_to_valide("user_email");
@@ -400,8 +408,8 @@ $(document).ready(function () {
         change_to_valide("user_code_postal");
         change_to_valide("user_pays");
         change_to_valide("user_don");
-        $('#div_error').html('');
-        user_anonyme = $('#user_anonyme option:selected').val();
+        $('#div_error_don').html('');
+        /*user_anonyme = $('#user_anonyme option:selected').val();
         user_nom = $('#user_nom').val();
         user_prenom = $('#user_prenom').val();
         user_email = $('#user_email').val();
@@ -410,8 +418,7 @@ $(document).ready(function () {
         user_code_postal = $.trim($("#user_code_postal").val());
         user_pays = $.trim($("#user_pays").val());
         user_tel = $('#user_tel').val();
-        user_commentaire = "Don fait à partir de l'application 'Un geste solidaire'";
-        user_anonyme = $('#user_anonyme').val();
+        user_commentaire = "Don fait à partir de l'application 'Un geste solidaire'";*/
         if ($('#don').val() === "" || $('#don').val() < 1 || $('#don').val() == undefined) {
             don = $('#montant_don option:selected').val();
         } else {
@@ -476,11 +483,12 @@ $(document).ready(function () {
         }
         if (error_count !== 0) {
             $(this).css('background-color', '#FF0000');
-            $('#div_error').html(error_message);
+            $('#div_error_don').html(error_message);
             $(this).css('background-color', '#2ab7a9');
             error_message = "";
             error_count = 0;
         } else {
+            $('#button_valider_don').html('<div class="preloader-wrapper active"><div class="spinner-layer spinner-blue-only"><div class="circle-clipper left"><div class="circle"></div></div><div class="gap-patch"><div class="circle"></div></div><div class="circle-clipper right"><div class="circle"></div></div></div></div>');
             if (don === "10") {
                 $("#mfgWidget").contents().find("#ctl09_rptOptionsDon_option_1").children('td').children('input').prop('checked', true);
                 iframe_don_selected = true;
@@ -494,31 +502,51 @@ $(document).ready(function () {
             }
             if (iframe_don_selected === true) {
                 $("#mfgWidget").contents().find("#ctl09_btnValidateFormule").trigger('click');
-                setTimeout(function(){
-                    $("#mfgWidget").contents().find("#ctl09_civilite option[value='" + user_genre + "']").prop('selected', true);
-                    $("#mfgWidget").contents().find("#ctl09_prenom").val(user_prenom);
-                    $("#mfgWidget").contents().find("#ctl09_nom").val(user_nom);
-                    $("#mfgWidget").contents().find("#ctl09_email").val(user_email);
-                    $("#mfgWidget").contents().find("#ctl09_adresse").val(user_adress);
-                    $("#mfgWidget").contents().find("#ctl09_ville").val(user_ville);
-                    $("#mfgWidget").contents().find("#ctl09_codePostal").val(user_code_postal);user_commentaire
-                    $("#mfgWidget").contents().find("#ctl09_pays").val(user_pays);
-                    $("#mfgWidget").contents().find("#ctl09_commentaire").val(user_commentaire);
-                    if (user_anonyme === "oui") {
-                        $("#mfgWidget").contents().find("#anonyme").prop('checked', true);
-                    } else {
-                        $("#mfgWidget").contents().find("#anonyme").prop('checked', false);
-                    }
-                    iframe_user_info_selected = true;
-                    if (iframe_user_info_selected === true) {
-                        $("#mfgWidget").contents().find("#ctl09_btnValidateCoordonnees").trigger('click');
-                        setTimeout(function(){
-                            $("#mfgWidget").contents().find("#cbNoTip").trigger('click');
-                            iframe_pourboire_selected = true;
-                            if (iframe_pourboire_selected === true) {
-                                $("#mfgWidget").contents().find("#ctl09_btnValidatePaiement").trigger('click');
-                            }
-                        }, 2000);
+                check_form_don_second_step = setInterval(function() {
+                    if (check_form_don("#mfgWidget", "#ctl09_prenom") === true) {
+                        clearInterval(check_form_don_second_step);
+                        $("#mfgWidget").contents().find("#ctl09_civilite option[value='" + user_genre + "']").prop('selected', true);
+                        $("#mfgWidget").contents().find("#ctl09_prenom").val(user_prenom);
+                        $("#mfgWidget").contents().find("#ctl09_nom").val(user_nom);
+                        $("#mfgWidget").contents().find("#ctl09_email").val(user_email);
+                        $("#mfgWidget").contents().find("#ctl09_adresse").val(user_adress);
+                        $("#mfgWidget").contents().find("#ctl09_ville").val(user_ville);
+                        $("#mfgWidget").contents().find("#ctl09_codePostal").val(user_code_postal);user_commentaire
+                        $("#mfgWidget").contents().find("#ctl09_pays").val(user_pays);
+                        $("#mfgWidget").contents().find("#ctl09_commentaire").val(user_commentaire);
+                        if (user_anonyme === "oui") {
+                            $("#mfgWidget").contents().find("#anonyme").prop('checked', true);
+                        } else {
+                            $("#mfgWidget").contents().find("#anonyme").prop('checked', false);
+                        }
+                        iframe_user_info_selected = true;
+                        if (iframe_user_info_selected === true) {
+                            $("#mfgWidget").contents().find("#ctl09_btnValidateCoordonnees").trigger('click');
+                            check_form_don_third_step = setInterval(function() {
+                                if (check_form_don("#mfgWidget", "#montantPourboire") === true) {
+                                    $("#mfgWidget").contents().find("#cbNoTip").trigger('click');
+                                    iframe_pourboire_selected = true;
+                                    clearInterval(check_form_don_third_step);
+                                }
+                                if (iframe_pourboire_selected === true) {
+                                    $("#mfgWidget").contents().find("#ctl09_btnValidatePaiement").trigger('click');
+                                    check_form_don_fourth_step = setInterval(function() {
+                                        if (check_form_don("#mfgWidget", "#CB") === true) {
+                                            clearInterval(check_form_don_fourth_step);
+                                            $('#the_body').css({
+                                                "border": '0',
+                                                "margin": '0'
+                                            });
+                                            $('#form_don').css('display', 'none');
+                                            $("#mfgWidget").contents().find("#backToBoutiqueForm").css('display', 'none');
+                                            $('#div_h1_h2').css('display', 'none');
+                                            $('#widget').css('display', 'block');
+                                            $("html, body").animate({ scrollTop: 0 }, "fast");
+                                        }
+                                    }, 2000);
+                                }
+                            }, 2000);
+                        }
                     }
                 }, 2000);
             }
