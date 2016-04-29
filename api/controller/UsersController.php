@@ -15,7 +15,7 @@ class UsersController extends User
 		$bdd = new Bdd();
 
 		$check = $bdd->getBdd()->prepare('SELECT id FROM users WHERE email = :email');
-		$check->bindParam(':email', $_POST['user_email'], PDO::PARAM_STR);
+		$check->bindParam(':email', $_POST['user_email'], \PDO::PARAM_STR);
 		$check->execute();
 		if (empty($check->fetch())) {
 			return true;
@@ -65,7 +65,7 @@ class UsersController extends User
 		$sql = $bdd->getBdd()->prepare('SELECT email FROM users WHERE email = ?');
 		$sql->bindParam(1, $email);
 		$sql->execute();
-		$donnees = $sql->fetch(PDO::FETCH_ASSOC);
+		$donnees = $sql->fetch(\PDO::FETCH_ASSOC);
 		if ($donnees) {
 			self::send_json(null, $donnees["email"]);
 		} else {
@@ -79,22 +79,22 @@ class UsersController extends User
 		$getPwd = $bdd->getBdd()->prepare('SELECT pass FROM users WHERE email = ?');
 		$getPwd->bindParam(1, $email);
 		$getPwd->execute();
-		if ($pwd = $getPwd->fetch(PDO::FETCH_ASSOC)) {
+		if ($pwd = $getPwd->fetch(\PDO::FETCH_ASSOC)) {
 			if (password_verify($pass, $pwd['pass'])) {
 				$auth_error = false;
 				$token = sha1(time() * rand(1, 555));
 				$sql_token = $bdd->getBdd()->prepare('UPDATE users SET token = ? WHERE email = ?');
-				$sql_token->bindParam(1, $token, PDO::PARAM_STR);
-				$sql_token->bindParam(2, $email, PDO::PARAM_STR);
+				$sql_token->bindParam(1, $token, \PDO::PARAM_STR);
+				$sql_token->bindParam(2, $email, \PDO::PARAM_STR);
 				if (!$sql_token->execute()) {
 					self::send_json("error occured during token insertion, please contact admin", null);
 					return false;
 				}
 				$get = $bdd->getBdd()->prepare('SELECT * FROM users WHERE email = ? AND token = ?');
-				$get->bindParam(1, $email, PDO::PARAM_STR);
-				$get->bindParam(2, $token, PDO::PARAM_STR);
+				$get->bindParam(1, $email, \PDO::PARAM_STR);
+				$get->bindParam(2, $token, \PDO::PARAM_STR);
 				if ($get->execute()) {
-					$user = $get->fetchAll(PDO::FETCH_ASSOC);
+					$user = $get->fetchAll(\PDO::FETCH_ASSOC);
 					self::send_json(false, array("email" => $email, "token" => $token, 'user' => $user));
 				} else {
 					self::send_json('error occured while get user', false);
