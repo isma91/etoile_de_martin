@@ -554,15 +554,17 @@ $(document).ready(function () {
                                             $("html, body").animate({ scrollTop: 0 }, "fast");*/
                                             alert("carte disponible");
                                             //$("#mfgWidget").contents().find("input[value='" + user_carte + "']").trigger('click');
-                                            $("#mfgWidget").contents().find("#" + user_carte + "").trigger('click');
-                                            $("#mfgWidget").contents().find(".choiceLabel").on('click', function() {
-                                                alert($(this).children('input').val());
-                                                /*check_form_don_five_step = setInterval(function() {
-                                                    if (check_form_don("#mfgWidget", "#cvvid") === true) {
-                                                        $("#mfgWidget").contents().find("#backToBoutiqueBlock").css('display', 'none');
-                                                    }
-                                                }, 2000);*/
-                                            });
+                                            $("#mfgWidget").contents().find("#" + user_carte).trigger('click');
+                                            $("#mfgWidget").contents().find('#validationButtonPaymentMean').trigger('click');
+                                            
+                                            // $("#mfgWidget").contents().find("#validationButtonPaymentMean").on('click', function() {
+                                            //     alert(user_carte);
+                                            //     check_form_don_five_step = setInterval(function() {
+                                            //         if (check_form_don("#mfgWidget", "#cvvid") === true) {
+                                            //             $("#mfgWidget").contents().find("#backToBoutiqueBlock").css('display', 'none');
+                                            //         }
+                                            //     }, 2000);
+                                            // });
                                         }
                                     }, 2000);
                                 }
