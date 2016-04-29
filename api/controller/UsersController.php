@@ -95,7 +95,9 @@ class UsersController extends User
 				$get->bindParam(2, $token, \PDO::PARAM_STR);
 				if ($get->execute()) {
 					$user = $get->fetchAll(\PDO::FETCH_ASSOC);
-					self::send_json(null, array("email" => $email, "token" => $token, 'user' => $user));
+					unset($user[0]['pass']);
+					unset($user[0]['id']);
+					self::send_json(null, $user[0]);
 				} else {
 					self::send_json('error occured while get user', false);
 					return false;
