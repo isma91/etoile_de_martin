@@ -90,7 +90,17 @@ class UsersController extends User
 					self::send_json("error occured during token insertion, please contact admin", null);
 					return false;
 				}
-				self::send_json(false, array("email" => $email, "token" => $token));
+				$get = $bdd->getBdd()->prepare('SELECT * FROM users WHERE email = ? AND token = ?');
+				$get->bindParam(1, $email, PDO::PARAM_STR);
+				$get->bindParam(2, $token, PDO::PARAM_STR);
+				if ($get->execute()) {
+					$user = $get->fetchAll(PDO::FETCH_ASSOC);
+					self::send_json(false, array("email" => $email, "token" => $token, 'user' => $user));
+				} else {
+					self::send_json('error occured while get user', false);
+					return false;
+
+				}
 				return true;
 			}
 		}
