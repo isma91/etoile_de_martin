@@ -3,7 +3,7 @@
 /*global $, jQuery*/
 /*minifier le code => + perf !!*/
 $(document).ready(function () {
-    var user_nom, user_prenom, user_email, user_tel, parrain_email, don, error_message, error_count, user_pass, user_pass_valider, user_adress, user_newsletter, user_inscription_error, error_check_parrain, hello_asso_widget, window_width, window_height, user_ville, user_code_postal, user_pays, parrain_email_change, choose_parrain_email_change, error_check_parrain, connection_status, iframe_don_selected, iframe_user_info_selected, iframe_pourboire_selected, check_form_don_second_step, check_form_don_third_step, check_form_don_fourth_step, user_carte, iframe_cb_selected;
+    var user_nom, user_prenom, user_email, user_tel, parrain_email, don, error_message, error_count, user_pass, user_pass_valider, user_adress, user_newsletter, user_inscription_error, error_check_parrain, hello_asso_widget, window_width, window_height, user_ville, user_code_postal, user_pays, parrain_email_change, choose_parrain_email_change, error_check_parrain, connection_status, iframe_don_selected, iframe_user_info_selected, iframe_pourboire_selected, check_form_don_second_step, check_form_don_third_step, check_form_don_fourth_step, user_carte, iframe_cb_selected, user_json;
     error_message = "";
     error_count = 0;
     window_width = $(window).width();
@@ -22,6 +22,25 @@ $(document).ready(function () {
             $('#menu_connection').html('<h1 style="width:100%;">Bienvenue dans la page de connexion !!</h1><h2 style="width:100%;">Veuillez remplir le formulaire pour vous connectez</h2><div class="row" id="div_error"></div><div class="input-field col s12"><i class="material-icons prefix">email</i><input id="user_email_connexion" style="max-width: 70%;" type="email" placeholder="email"></div><div class="input-field col s12"><i class="mdi-action-lock-outline prefix"></i><input id="user_pass" type="password" style="max-width: 70    %;" placeholder="Mot de passe"></div><button class="waves-effect waves-teal btn-flat" id="connexion">Connexion</button>');
         } else {
             $('#menu_connection').html('Bienvenue <p>' + localStorage.getItem("etoile_de_martin_user_email") + '</p><div class="row"><button class="waves-effect waves-teal btn-flat" id="deconnexion">Deconnexion</button></div>');
+            if (check_form_don("#form_don", "#user_carte") === true) {
+                if (localStorage.getItem("etoile_de_martin_user_email") === null) {
+                    $('#the_body').html('<img class="responsive-img" src="img/logo.png" alt="logo_etoile_de_martin"><nav id="slide-out" class="side-nav"><div id="menu_nav"><div id="menu_connection"></div><div id="menu_parrain"></div></div></nav><a href="#" class="button-collapse" id="menu" data-activates="slide-out"><i class="material-icons medium">perm_identity</i></a><div class="row"><div class="col s12" id="user"></div></div><div class="row" id="div_h1_h2"><h1>Bienvenue sur l’appli « Un geste solidaire » pour l’Etoile de Martin pour soutenir la recherche sur les cancers de l’enfant</h1><h2>Pour faire un don, merci de remplir le formulaire</h2></div><div class="row end_button"><button class="waves-effect waves-teal btn-flat" id="retour_choix_invation">Retour au choix de l\'invitation</button></div><div class="row"><div class="col s12" id="div_error_don"></div></div><div class="row" id="form_don"><form class="col s12"><div class="row"><div class="input-field col s12"><select id="user_civilite"><option value="Monsieur">Monsieur</option><option value="Madame">Madame</option></select><label>Civilité</label></div><div class="input-field col s12"><i class="material-icons prefix">account_circle</i><input id="user_nom" type="text"><label for="user_nom">Nom</label></div><div class="input-field col s12"><i class="material-icons prefix">account_box</i><input id="user_prenom" type="text"><label for="user_prenom">Prenom</label></div><div class="input-field col s12"><i class="material-icons prefix">email</i><input id="user_email" type="email"><label for="user_email">Email</label></div><div class="input-field col s12"><i class="material-icons prefix">location_on</i><input id="user_adress" type="text"><label for="user_adress">Adresse</label></div><div class="input-field col s12"><i class="material-icons prefix">location_city</i><input id="user_ville" type="text"><label for="user_ville">Ville</label></div><div class="input-field col s12"><i class="material-icons prefix">location_city</i><input id="user_code_postal" type="number"><label for="user_code_postal">Code Postal</label></div><div class="input-field col s12"><i class="material-icons prefix">account_balance</i><input id="user_pays" type="text"><label for="user_pays">Pays</label></div><div class="input-field col s12"><i class="material-icons prefix">phone</i><input id="user_tel" type="tel"><label for="user_tel">Numero de Telephone (Facultatif)</label></div><div class="input-field col s12"><select id="montant_don"><option value="10">10€</option><option value="20">20€</option><option value="30">30€</option><option value="autre">autre montant</option></select><label>Montant du don</label></div><div id="input_autre_montant"></div><div class="input-field col s12"><select id="user_anonyme"><option value="non">Non</option><option value="oui">Oui</option></select><label>Don anonyme ?</label></div><div class="input-field col s12"><select id="user_carte"><option value="CB" data-icon="img/cb.jpg" class="left responsive-img">Carte Bleue</option><option value="E-CARTEBLEUE" data-icon="img/e_cb.jpg" class="left responsive-img">E-Carte bleue</option><option value="MAESTRO" data-icon="img/maestro.png" class="left responsive-img">Maestro</option><option value="MASTERCARD" data-icon="img/mastercard.png" class="left responsive-img">Mastercard</option><option value="VISA" data-icon="img/visa.png" class="left responsive-img">Visa</option><option value="VISA_ELECTRON" data-icon="img/visa_electron.png" class="left responsive-img">Visa Electron</option></select><label>Choix type carte</label></div></div></form><div class="row" id="fiscal"></div><div class="row end_button" id="button_valider_don"><div class="preloader-wrapper active"><div class="spinner-layer spinner-blue-only"><div class="circle-clipper left"><div class="circle"></div></div><div class="gap-patch"><div class="circle"></div></div><div class="circle-clipper right"><div class="circle"></div></div></div></div></div></div><div class="row" id="widget"></div>');
+                } else {
+                    $('#the_body').html('<img class="responsive-img" src="img/logo.png" alt="logo_etoile_de_martin"><nav id="slide-out" class="side-nav"><div id="menu_nav"><div id="menu_connection"></div><div id="menu_parrain"></div></div></nav><a href="#" class="button-collapse" id="menu" data-activates="slide-out"><i class="material-icons medium">perm_identity</i></a><div class="row"><div class="col s12" id="user"></div></div><div class="row" id="div_h1_h2"><h1>Bienvenue sur l’appli « Un geste solidaire » pour l’Etoile de Martin pour soutenir la recherche sur les cancers de l’enfant</h1><h2>Pour faire un don, merci de remplir le formulaire</h2></div><div class="row end_button"><button class="waves-effect waves-teal btn-flat" id="retour_choix_invation">Retour au choix de l\'invitation</button></div><div class="row"><div class="col s12" id="div_error_don"></div></div><div class="row" id="form_don"><form class="col s12"><div class="row"><div class="input-field col s12"><select id="montant_don"><option value="10">10€</option><option value="20">20€</option><option value="30">30€</option><option value="autre">autre montant</option></select><label>Montant du don</label></div><div id="input_autre_montant"></div><div class="input-field col s12"><select id="user_anonyme"><option value="non">Non</option><option value="oui">Oui</option></select><label>Don anonyme ?</label></div><div class="input-field col s12"><select id="user_carte"><option value="CB" data-icon="img/cb.jpg" class="left responsive-img">Carte Bleue</option><option value="E-CARTEBLEUE" data-icon="img/e_cb.jpg" class="left responsive-img">E-Carte bleue</option><option value="MAESTRO" data-icon="img/maestro.png" class="left responsive-img">Maestro</option><option value="MASTERCARD" data-icon="img/mastercard.png" class="left responsive-img">Mastercard</option><option value="VISA" data-icon="img/visa.png" class="left responsive-img">Visa</option><option value="VISA_ELECTRON" data-icon="img/visa_electron.png" class="left responsive-img">Visa Electron</option></select><label>Choix type carte</label></div></div></form><div class="row" id="fiscal"></div><div class="row end_button" id="button_valider_don"><div class="preloader-wrapper active"><div class="spinner-layer spinner-blue-only"><div class="circle-clipper left"><div class="circle"></div></div><div class="gap-patch"><div class="circle"></div></div><div class="circle-clipper right"><div class="circle"></div></div></div></div></div></div><div class="row" id="widget"></div>');
+                }
+                $('select').material_select();
+                hello_asso_widget = $('<iframe/>', {
+                    id:'mfgWidget',
+                    src:'https://www.helloasso.com/associations/l-etoile-de-martin/formulaire-don',
+                    style:'width:' + window_width + 'px;height: ' + window_height + 'px;border:none;',
+                    load: function () {
+                        $("#button_valider_don").html('<button class="waves-effect waves-teal btn-flat" id="valider_don">Valider le don</button>');
+                    }
+                });
+                $("#fiscal").html("<p>Coût réel de votre don après déduction fiscale : " + ($('#montant_don').val() - (0.34 * $('#montant_don').val())).toFixed(2) + " €</p>");
+                $('#widget').append(hello_asso_widget);
+                $('#widget').css('display', 'none');
+            }
         }
         if (localStorage.getItem("etoile_de_martin_parrain_email") === null) {
             $('#menu_parrain').html('<div class="row" style="width:100%;"><h1>Pas de parrain !!</h1></div>');
@@ -62,7 +81,11 @@ $(document).ready(function () {
         }
     }
     function go_form_don () {
-        $('#the_body').html('<img class="responsive-img" src="img/logo.png" alt="logo_etoile_de_martin"><nav id="slide-out" class="side-nav"><div id="menu_nav"><div id="menu_connection"></div><div id="menu_parrain"></div></div></nav><a href="#" class="button-collapse" id="menu" data-activates="slide-out"><i class="material-icons medium">perm_identity</i></a><div class="row"><div class="col s12" id="user"></div></div><div class="row" id="div_h1_h2"><h1>Bienvenue sur l’appli « Un geste solidaire » pour l’Etoile de Martin pour soutenir la recherche sur les cancers de l’enfant</h1><h2>Pour faire un don, merci de remplir le formulaire</h2></div><div class="row end_button"><button class="waves-effect waves-teal btn-flat" id="retour_choix_invation">Retour au choix de l\'invitation</button></div><div class="row"><div class="col s12" id="div_error_don"></div></div><div class="row" id="form_don"><form class="col s12"><div class="row"><div class="input-field col s12"><select id="user_civilite"><option value="Monsieur">Monsieur</option><option value="Madame">Madame</option></select><label>Civilité</label></div><div class="input-field col s12"><i class="material-icons prefix">account_circle</i><input id="user_nom" type="text"><label for="user_nom">Nom</label></div><div class="input-field col s12"><i class="material-icons prefix">account_box</i><input id="user_prenom" type="text"><label for="user_prenom">Prenom</label></div><div class="input-field col s12"><i class="material-icons prefix">email</i><input id="user_email" type="email"><label for="user_email">Email</label></div><div class="input-field col s12"><i class="material-icons prefix">location_on</i><input id="user_adress" type="text"><label for="user_adress">Adresse</label></div><div class="input-field col s12"><i class="material-icons prefix">location_city</i><input id="user_ville" type="text"><label for="user_ville">Ville</label></div><div class="input-field col s12"><i class="material-icons prefix">location_city</i><input id="user_code_postal" type="number"><label for="user_code_postal">Code Postal</label></div><div class="input-field col s12"><i class="material-icons prefix">account_balance</i><input id="user_pays" type="text"><label for="user_pays">Pays</label></div><div class="input-field col s12"><i class="material-icons prefix">phone</i><input id="user_tel" type="tel"><label for="user_tel">Numero de Telephone (Facultatif)</label></div><div class="input-field col s12"><select id="montant_don"><option value="10">10€</option><option value="20">20€</option><option value="30">30€</option><option value="autre">autre montant</option></select><label>Montant du don</label></div><div id="input_autre_montant"></div><div class="input-field col s12"><select id="user_anonyme"><option value="non">Non</option><option value="oui">Oui</option></select><label>Don anonyme ?</label></div><div class="input-field col s12"><select id="user_carte"><option value="CB" data-icon="img/cb.jpg" class="left responsive-img">Carte Bleue</option><option value="E-CARTEBLEUE" data-icon="img/e_cb.jpg" class="left responsive-img">E-Carte bleue</option><option value="MAESTRO" data-icon="img/maestro.png" class="left responsive-img">Maestro</option><option value="MASTERCARD" data-icon="img/mastercard.png" class="left responsive-img">Mastercard</option><option value="VISA" data-icon="img/visa.png" class="left responsive-img">Visa</option><option value="VISA_ELECTRON" data-icon="img/visa_electron.png" class="left responsive-img">Visa Electron</option></select><label>Choix type carte</label></div></div></form><div class="row" id="fiscal"></div><div class="row end_button" id="button_valider_don"><div class="preloader-wrapper active"><div class="spinner-layer spinner-blue-only"><div class="circle-clipper left"><div class="circle"></div></div><div class="gap-patch"><div class="circle"></div></div><div class="circle-clipper right"><div class="circle"></div></div></div></div></div></div><div class="row" id="widget"></div>');
+        if (localStorage.getItem("etoile_de_martin_user_email") === null) {
+            $('#the_body').html('<img class="responsive-img" src="img/logo.png" alt="logo_etoile_de_martin"><nav id="slide-out" class="side-nav"><div id="menu_nav"><div id="menu_connection"></div><div id="menu_parrain"></div></div></nav><a href="#" class="button-collapse" id="menu" data-activates="slide-out"><i class="material-icons medium">perm_identity</i></a><div class="row"><div class="col s12" id="user"></div></div><div class="row" id="div_h1_h2"><h1>Bienvenue sur l’appli « Un geste solidaire » pour l’Etoile de Martin pour soutenir la recherche sur les cancers de l’enfant</h1><h2>Pour faire un don, merci de remplir le formulaire</h2></div><div class="row end_button"><button class="waves-effect waves-teal btn-flat" id="retour_choix_invation">Retour au choix de l\'invitation</button></div><div class="row"><div class="col s12" id="div_error_don"></div></div><div class="row" id="form_don"><form class="col s12"><div class="row"><div class="input-field col s12"><select id="user_civilite"><option value="Monsieur">Monsieur</option><option value="Madame">Madame</option></select><label>Civilité</label></div><div class="input-field col s12"><i class="material-icons prefix">account_circle</i><input id="user_nom" type="text"><label for="user_nom">Nom</label></div><div class="input-field col s12"><i class="material-icons prefix">account_box</i><input id="user_prenom" type="text"><label for="user_prenom">Prenom</label></div><div class="input-field col s12"><i class="material-icons prefix">email</i><input id="user_email" type="email"><label for="user_email">Email</label></div><div class="input-field col s12"><i class="material-icons prefix">location_on</i><input id="user_adress" type="text"><label for="user_adress">Adresse</label></div><div class="input-field col s12"><i class="material-icons prefix">location_city</i><input id="user_ville" type="text"><label for="user_ville">Ville</label></div><div class="input-field col s12"><i class="material-icons prefix">location_city</i><input id="user_code_postal" type="number"><label for="user_code_postal">Code Postal</label></div><div class="input-field col s12"><i class="material-icons prefix">account_balance</i><input id="user_pays" type="text"><label for="user_pays">Pays</label></div><div class="input-field col s12"><i class="material-icons prefix">phone</i><input id="user_tel" type="tel"><label for="user_tel">Numero de Telephone (Facultatif)</label></div><div class="input-field col s12"><select id="montant_don"><option value="10">10€</option><option value="20">20€</option><option value="30">30€</option><option value="autre">autre montant</option></select><label>Montant du don</label></div><div id="input_autre_montant"></div><div class="input-field col s12"><select id="user_anonyme"><option value="non">Non</option><option value="oui">Oui</option></select><label>Don anonyme ?</label></div><div class="input-field col s12"><select id="user_carte"><option value="CB" data-icon="img/cb.jpg" class="left responsive-img">Carte Bleue</option><option value="E-CARTEBLEUE" data-icon="img/e_cb.jpg" class="left responsive-img">E-Carte bleue</option><option value="MAESTRO" data-icon="img/maestro.png" class="left responsive-img">Maestro</option><option value="MASTERCARD" data-icon="img/mastercard.png" class="left responsive-img">Mastercard</option><option value="VISA" data-icon="img/visa.png" class="left responsive-img">Visa</option><option value="VISA_ELECTRON" data-icon="img/visa_electron.png" class="left responsive-img">Visa Electron</option></select><label>Choix type carte</label></div></div></form><div class="row" id="fiscal"></div><div class="row end_button" id="button_valider_don"><div class="preloader-wrapper active"><div class="spinner-layer spinner-blue-only"><div class="circle-clipper left"><div class="circle"></div></div><div class="gap-patch"><div class="circle"></div></div><div class="circle-clipper right"><div class="circle"></div></div></div></div></div></div><div class="row" id="widget"></div>');
+        } else {
+            $('#the_body').html('<img class="responsive-img" src="img/logo.png" alt="logo_etoile_de_martin"><nav id="slide-out" class="side-nav"><div id="menu_nav"><div id="menu_connection"></div><div id="menu_parrain"></div></div></nav><a href="#" class="button-collapse" id="menu" data-activates="slide-out"><i class="material-icons medium">perm_identity</i></a><div class="row"><div class="col s12" id="user"></div></div><div class="row" id="div_h1_h2"><h1>Bienvenue sur l’appli « Un geste solidaire » pour l’Etoile de Martin pour soutenir la recherche sur les cancers de l’enfant</h1><h2>Pour faire un don, merci de remplir le formulaire</h2></div><div class="row end_button"><button class="waves-effect waves-teal btn-flat" id="retour_choix_invation">Retour au choix de l\'invitation</button></div><div class="row"><div class="col s12" id="div_error_don"></div></div><div class="row" id="form_don"><form class="col s12"><div class="row"><div class="input-field col s12"><select id="montant_don"><option value="10">10€</option><option value="20">20€</option><option value="30">30€</option><option value="autre">autre montant</option></select><label>Montant du don</label></div><div id="input_autre_montant"></div><div class="input-field col s12"><select id="user_anonyme"><option value="non">Non</option><option value="oui">Oui</option></select><label>Don anonyme ?</label></div><div class="input-field col s12"><select id="user_carte"><option value="CB" data-icon="img/cb.jpg" class="left responsive-img">Carte Bleue</option><option value="E-CARTEBLEUE" data-icon="img/e_cb.jpg" class="left responsive-img">E-Carte bleue</option><option value="MAESTRO" data-icon="img/maestro.png" class="left responsive-img">Maestro</option><option value="MASTERCARD" data-icon="img/mastercard.png" class="left responsive-img">Mastercard</option><option value="VISA" data-icon="img/visa.png" class="left responsive-img">Visa</option><option value="VISA_ELECTRON" data-icon="img/visa_electron.png" class="left responsive-img">Visa Electron</option></select><label>Choix type carte</label></div></div></form><div class="row" id="fiscal"></div><div class="row end_button" id="button_valider_don"><div class="preloader-wrapper active"><div class="spinner-layer spinner-blue-only"><div class="circle-clipper left"><div class="circle"></div></div><div class="gap-patch"><div class="circle"></div></div><div class="circle-clipper right"><div class="circle"></div></div></div></div></div></div><div class="row" id="widget"></div>');
+        }
         $("#menu").sideNav();
         make_nav_work();
         $('select').material_select();
@@ -76,7 +99,7 @@ $(document).ready(function () {
         });
         $("#fiscal").html("<p>Coût réel de votre don après déduction fiscale : " + ($('#montant_don').val() - (0.34 * $('#montant_don').val())).toFixed(2) + " €</p>");
         $('#widget').append(hello_asso_widget);
-        //$('#widget').css('display', 'none');
+        $('#widget').css('display', 'none');
     }
     $(document).on('click', '#retour_choix_invation', function() {
         check_if_parrain();
@@ -256,6 +279,7 @@ $(document).ready(function () {
                         }
                         localStorage.setItem("etoile_de_martin_user_email", data.data.email);
                         localStorage.setItem("etoile_de_martin_user_token", data.data.token);
+                        localStorage.setItem("etoile_de_martin_user_json", JSON.stringify(data.data));
                         make_nav_work();
                     } else {
                         Materialize.toast('<p class="alert-failed">' + data.error + '<p>', 3000, 'rounded alert-failed');
@@ -297,54 +321,54 @@ $(document).ready(function () {
         user_newsletter = $("#newsletter").is(":checked");
         if (user_nom === "") {
             change_to_invalide("user_nom");
-            user_inscription_error = user_inscription_error + "<p>Nom vide !!</p>"
+            user_inscription_error = user_inscription_error + "<p>Nom vide !!</p>";
         }
         if (user_prenom === "") {
             change_to_invalide("user_prenom");
-            user_inscription_error = user_inscription_error + "<p>Prenom vide !!</p>"
+            user_inscription_error = user_inscription_error + "<p>Prenom vide !!</p>";
         }
         if (user_adress === "") {
             change_to_invalide("user_adress");
-            user_inscription_error = user_inscription_error + "<p>Adresse vide !!</p>"
+            user_inscription_error = user_inscription_error + "<p>Adresse vide !!</p>";
         }
         if (user_ville === "") {
             change_to_invalide("user_ville");
-            user_inscription_error = user_inscription_error + "<p>Ville vide !!</p>"
+            user_inscription_error = user_inscription_error + "<p>Ville vide !!</p>";
         }
         if (user_code_postal === "") {
             change_to_invalide("user_code_postal");
-            user_inscription_error = user_inscription_error + "<p>Code Postal vide !!</p>"
+            user_inscription_error = user_inscription_error + "<p>Code Postal vide !!</p>";
         }
         if (user_pays === "") {
             change_to_invalide("user_pays");
-            user_inscription_error = user_inscription_error + "<p>Pays vide !!</p>"
+            user_inscription_error = user_inscription_error + "<p>Pays vide !!</p>";
         }
         if (user_email === "") {
             change_to_invalide("user_email");
-            user_inscription_error = user_inscription_error + "<p>Email vide !!</p>"
+            user_inscription_error = user_inscription_error + "<p>Email vide !!</p>";
         }
         if (user_pass === "") {
             change_to_invalide("user_pass");
-            user_inscription_error = user_inscription_error + "<p>Mot de passe vide !!</p>"
+            user_inscription_error = user_inscription_error + "<p>Mot de passe vide !!</p>";
         }
         if (user_pass_valider === "") {
             change_to_invalide("user_pass_valider");
-            user_inscription_error = user_inscription_error + "<p>Mot de passe de validation vide !!</p>"
+            user_inscription_error = user_inscription_error + "<p>Mot de passe de validation vide !!</p>";
         }
         if (user_email !== "") {
             if (user_email.split('@').length === 2) {
                 if (user_email.split('@')[0] !== "" && user_email.split('@')[1] !== "") {
                     if (user_email.split('@')[1].split(".").length > 0) {
                     } else {
-                        user_inscription_error = user_inscription_error + "<p>Email non valide !!</p>"
+                        user_inscription_error = user_inscription_error + "<p>Email non valide !!</p>";
                         change_to_invalide("user_email");
                     }
                 } else {
-                    user_inscription_error = user_inscription_error + "<p>Email non valide !!</p>"
+                    user_inscription_error = user_inscription_error + "<p>Email non valide !!</p>";
                     change_to_invalide("user_email");
                     }
             } else {
-                user_inscription_error = user_inscription_error + "<p>Email non valide !!</p>"
+                user_inscription_error = user_inscription_error + "<p>Email non valide !!</p>";
                 change_to_invalide("user_email");
             }
         }
@@ -364,8 +388,6 @@ $(document).ready(function () {
             $.post(path_to_ajax, {action: 'user_inscription', user_nom: user_nom, user_prenom: user_prenom, user_adress: user_adress, user_ville: user_ville, user_code_postal: user_code_postal, user_pays: user_pays, user_email: user_email, user_pass: user_pass, user_tel: user_tel, user_newsletter: user_newsletter}, function (data, textStatus) {
                 if (textStatus === "success") {
                     data = JSON.parse(data);
-                    console.log(data);
-                    return;
                     if (data.error === null) {
                         Materialize.toast('<p class="alert-success">Inscription reussi !!<p>', 3000, 'rounded alert-success');
                         localStorage.setItem("etoile_de_martin_user_email", data.data.email);
@@ -388,16 +410,28 @@ $(document).ready(function () {
         $("#fiscal").html("<p>Coût réel de votre don après déduction fiscale : " + ($(this).val() - (0.34 * $(this).val())).toFixed(2) + " €</p>");
     });
     $(document).on('click', '#valider_don', function() {
-        user_genre = $('#user_civilite option:selected').val();
-        user_nom = "Aydogmus";
-        user_prenom = "Ismail";
-        user_email = "noatsuki@gmail.com";
-        user_adress = "8 Résidence Le Bosquet";
-        user_ville = "Les Ulis";
-        user_code_postal = "91940";
-        user_pays = "France";
-        user_tel = "0667415293";
-        don = "452";
+        if (localStorage.getItem("etoile_de_martin_user_email") === null) {
+            user_genre = $('#user_civilite option:selected').val();
+            user_nom = $('#user_nom').val();
+            user_prenom = $('#user_prenom').val();
+            user_email = $('#user_email').val();
+            user_adress = $.trim($("#user_adress").val());
+            user_ville = $.trim($("#user_ville").val());
+            user_code_postal = $.trim($("#user_code_postal").val());
+            user_pays = $.trim($("#user_pays").val());
+            user_tel = $('#user_tel').val();
+        } else {
+            user_json = JSON.parse(localStorage.getItem("etoile_de_martin_user_json"));
+            user_genre = user_json.genre;
+            user_nom = user_json.nom;
+            user_prenom = user_json.prenom;
+            user_email = user_json.email;
+            user_adress = user_json.adresse;
+            user_ville = user_json.ville;
+            user_code_postal = user_json.codePostal;
+            user_pays = user_json.pays;
+            user_tel = user_json.tel;
+        }
         user_anonyme = $('#user_anonyme option:selected').val();
         user_commentaire = "Don fait à partir de l'application 'Un geste solidaire'";
         user_carte = $('#user_carte option:selected').val();
@@ -414,17 +448,6 @@ $(document).ready(function () {
         change_to_valide("user_pays");
         change_to_valide("user_don");
         $('#div_error_don').html('');
-        /*user_anonyme = $('#user_anonyme option:selected').val();
-        user_nom = $('#user_nom').val();
-        user_prenom = $('#user_prenom').val();
-        user_email = $('#user_email').val();
-        user_adress = $.trim($("#user_adress").val());
-        user_ville = $.trim($("#user_ville").val());
-        user_code_postal = $.trim($("#user_code_postal").val());
-        user_pays = $.trim($("#user_pays").val());
-        user_tel = $('#user_tel').val();
-        user_commentaire = "Don fait à partir de l'application 'Un geste solidaire'";
-        user_carte = $('#user_carte option:selected').val();*/
         if ($('#don').val() === "" || $('#don').val() < 1 || $('#don').val() == undefined) {
             don = $('#montant_don option:selected').val();
         } else {
@@ -494,7 +517,7 @@ $(document).ready(function () {
             error_message = "";
             error_count = 0;
         } else {
-            alert("genre = " + user_genre + " nom = " + user_nom + " prenom = " + user_prenom + " email = " + user_email + " adresse = " + user_adress + " ville = " + user_ville + " code_postal = " + user_code_postal + " pays = " + user_pays + " tel = " + user_tel + " don = " + don + " carte = " + user_carte);
+            //alert("genre = " + user_genre + " nom = " + user_nom + " prenom = " + user_prenom + " email = " + user_email + " adresse = " + user_adress + " ville = " + user_ville + " code_postal = " + user_code_postal + " pays = " + user_pays + " tel = " + user_tel + " don = " + don + " carte = " + user_carte);
             $('#button_valider_don').html('<div class="preloader-wrapper active"><div class="spinner-layer spinner-blue-only"><div class="circle-clipper left"><div class="circle"></div></div><div class="gap-patch"><div class="circle"></div></div><div class="circle-clipper right"><div class="circle"></div></div></div></div>');
             if (don === "10") {
                 $("#mfgWidget").contents().find("#ctl09_rptOptionsDon_option_1").children('td').children('input').prop('checked', true);
@@ -534,37 +557,33 @@ $(document).ready(function () {
                             $("#mfgWidget").contents().find("#ctl09_btnValidateCoordonnees").trigger('click');
                             check_form_don_third_step = setInterval(function() {
                                 if (check_form_don("#mfgWidget", "#montantPourboire") === true) {
+                                    clearInterval(check_form_don_third_step);
                                     $("#mfgWidget").contents().find("#cbNoTip").trigger('click');
                                     iframe_pourboire_selected = true;
-                                    clearInterval(check_form_don_third_step);
                                 }
                                 if (iframe_pourboire_selected === true) {
                                     $("#mfgWidget").contents().find("#ctl09_btnValidatePaiement").trigger('click');
                                     check_form_don_fourth_step = setInterval(function() {
                                         if (check_form_don("#mfgWidget", "#CB") === true) {
                                             clearInterval(check_form_don_fourth_step);
-                                            /*$('#the_body').css({
-                                                "border": '0',
-                                                "margin": '0'
-                                            });
-                                            $('#form_don').css('display', 'none');
-                                            $("#mfgWidget").contents().find("#backToBoutiqueForm").css('display', 'none');
-                                            $('#div_h1_h2').css('display', 'none');
-                                            $('#widget').css('display', 'block');
-                                            $("html, body").animate({ scrollTop: 0 }, "fast");*/
-                                            alert("carte disponible");
-                                            //$("#mfgWidget").contents().find("input[value='" + user_carte + "']").trigger('click');
-                                            $("#mfgWidget").contents().find("#" + user_carte).trigger('click');
-                                            $("#mfgWidget").contents().find('#validationButtonPaymentMean').trigger('click');
-                                            
-                                            // $("#mfgWidget").contents().find("#validationButtonPaymentMean").on('click', function() {
-                                            //     alert(user_carte);
-                                            //     check_form_don_five_step = setInterval(function() {
-                                            //         if (check_form_don("#mfgWidget", "#cvvid") === true) {
-                                            //             $("#mfgWidget").contents().find("#backToBoutiqueBlock").css('display', 'none');
-                                            //         }
-                                            //     }, 2000);
-                                            // });
+                                            iframe_cb_selected = true;
+                                            if (iframe_cb_selected === true) {
+                                                $("#mfgWidget").contents().find('#validationButtonPaymentMean').trigger('click');
+                                                check_form_don_five_step = setInterval(function() {
+                                                    if (check_form_don("#mfgWidget", "#cvvid") === true) {
+                                                        $('#the_body').css({
+                                                            "border": '0',
+                                                            "margin": '0'
+                                                        });
+                                                        $("#mfgWidget").contents().find("#backToBoutiqueBlock").css('display', 'none');
+                                                        $('#form_don').css('display', 'none');
+                                                        $('#div_h1_h2').css('display', 'none');
+                                                        $('#widget').css('display', 'block');
+                                                        $("html, body").animate({ scrollTop: 0 }, "fast");
+                                                        $("#mfgWidget").contents().find("#" + user_carte).trigger('click');
+                                                    }
+                                                }, 2000);
+                                            }
                                         }
                                     }, 2000);
                                 }
