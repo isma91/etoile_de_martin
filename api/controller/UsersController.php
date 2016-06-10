@@ -23,22 +23,23 @@ class UsersController extends User
 
 		return false;
 	}
-	public function create_user ($nom, $prenom, $adresse, $ville, $code_postal, $pays, $email, $pass, $tel, $newsletter)
+	public function create_user ($genre, $nom, $prenom, $adresse, $ville, $code_postal, $pays, $email, $pass, $tel, $newsletter)
 	{
 		$bdd = new Bdd();
 		if ($this->checkEmail()) {
-			$sql = 'INSERT INTO users (nom, prenom, email, pass, tel, adresse, ville, codePostal, pays, newsletter) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+			$sql = 'INSERT INTO users (genre, nom, prenom, email, pass, tel, adresse, ville, codePostal, pays, newsletter) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
 			$create = $bdd->getBdd()->prepare($sql);
-			$create->bindParam(1, $nom);
-			$create->bindParam(2, $prenom);
-			$create->bindParam(3, $email);
-			$create->bindParam(4, password_hash($pass, PASSWORD_DEFAULT));
-			$create->bindParam(5, $tel);
-			$create->bindParam(6, $adresse);
-			$create->bindParam(7, $ville);
-			$create->bindParam(8, $code_postal);
-			$create->bindParam(9, $pays);
-			$create->bindParam(10, $newsletter);
+			$create->bindParam(1, $genre);
+			$create->bindParam(2, $nom);
+			$create->bindParam(3, $prenom);
+			$create->bindParam(4, $email);
+			$create->bindParam(5, password_hash($pass, PASSWORD_DEFAULT));
+			$create->bindParam(6, $tel);
+			$create->bindParam(7, $adresse);
+			$create->bindParam(8, $ville);
+			$create->bindParam(9, $code_postal);
+			$create->bindParam(10, $pays);
+			$create->bindParam(11, $newsletter);
 			if ($create->execute()) {
 				$token = sha1(time() * rand(1, 555));
 				$update = $bdd->getBdd()->prepare('UPDATE users SET token = :token WHERE email = :email AND prenom = :prenom');
