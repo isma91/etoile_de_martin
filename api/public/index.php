@@ -14,7 +14,7 @@ switch ($_POST["action"]) {
 		// USER REGISTER
 		// RETURN EMAIL & TOKEN
 		// OR SPECIFIC ERROR
-		$user->create_user($_POST["user_nom"], $_POST["user_prenom"], $_POST["user_adress"], $_POST["user_ville"], $_POST["user_code_postal"], $_POST["user_pays"],  $_POST["user_email"], $_POST["user_pass"], $_POST["user_tel"], $_POST["user_newsletter"]);
+		$user->create_user($_POST["user_genre"], $_POST["user_nom"], $_POST["user_prenom"], $_POST["user_adress"], $_POST["user_ville"], $_POST["user_code_postal"], $_POST["user_pays"],  $_POST["user_email"], $_POST["user_pass"], $_POST["user_tel"], $_POST["user_newsletter"]);
 		break;
 
 	case 'connexion':
