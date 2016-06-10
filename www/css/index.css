@@ -47,7 +47,8 @@ h3 {
 	margin: auto;
 }
 #div_error,
-#div_error_parrain {
+#div_error_parrain,
+#div_error_don {
 	text-align: center;
 	color: #FF0000;
 }
