@@ -11,7 +11,7 @@ Doc en cours
 
 ## API
 * Requiert :
-⋅⋅* PHP >= 5.5.0
+   * PHP >= 5.5.0
 
 ### Configuration
 La configuration de l'API se fera dans le fichier `/config.php`.
