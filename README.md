@@ -2,7 +2,10 @@
 * Responsable et développeur Application : **Ismail**
 * Responsable et développeur API : **Raphaël**
 
-## Application Apache Cordova
+## Application mobile
+* Requiert :
+   * Apache Cordova
+
 Apache Cordova ou plus anciennement Apache Callback ou PhoneGap, est un framework open-source développé par la Fondation Apache. Il permet de créer des applications pour différentes plateformes (Android, Firefox OS, iOS, Ubuntu, Windows 8...) en HTML, CSS et JavaScript.
 
 [Documentation officielle](https://cordova.apache.org/docs/en/latest/)
@@ -15,6 +18,8 @@ Doc en cours
 
 ### Configuration
 La configuration de l'API se fera dans le fichier `/config.php`.
+
+Pour des raisons de sécurité, il est conseillé de configurer le webroot sur `/public`.
 
 ```php
 'db' => [
@@ -39,3 +44,16 @@ La configuration de l'API se fera dans le fichier `/config.php`.
 * smtp_server : remplacer par le serveur smtp
 
 Doc à completer
+
+## Contenu du repo
+* **Application mobile**
+   * /www `Contenu de l'application, partie visible`
+   * /config.xml `Configuration de apache cordova`
+   * /res `Media de application`
+
+* **API**
+   * /api
+
+* **Autres**
+   * /auteur
+   * /.gitignore
