@@ -43,6 +43,7 @@ Pour des raisons de sécurité, il est conseillé de configurer le webroot sur `
 * port : remplacer si necessaire
 * etoile : remplacer si necessaire
 * smtp_server : remplacer par le serveur smtp
+* contact@letoiledemartin.fr : remplacer si necessaire
 
 Doc à completer
 
