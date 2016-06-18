@@ -1,5 +1,5 @@
 # Cadeau Solidaire
-* Responsable et développeur Application : **Ismail**
+* Responsable et développeur Application mobile : **Ismail**
 * Responsable et développeur API : **Raphaël**
 
 ## Application mobile
