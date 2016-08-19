@@ -41,9 +41,9 @@ Pour des raisons de sécurité, il est conseillé de configurer le webroot sur `
 * root : remplacer par le compte permettant de se connecter à la base de donnée
 * pass : remplacer par le mot de passe permettant de se connecter à la base de donnée
 * port : remplacer si necessaire
-* etoile : remplacer si necessaire
+* dbname : nom de la base de donnée, remplacer si necessaire
 * smtp_server : remplacer par le serveur smtp
-* contact@letoiledemartin.fr : remplacer si necessaire
+* sendmail_from : email de contact, remplacer si necessaire
 
 Doc à completer
 
