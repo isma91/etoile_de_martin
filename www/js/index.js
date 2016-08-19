@@ -458,6 +458,7 @@ $(document).ready(function () {
             error_message = "";
             error_count = 0;
         } else {
+            $('#mainForm').remove();
             if ($('#user_inscription').val() === "oui") {
                 $.post(path_to_ajax, {action: 'user_inscription', user_genre: user_genre, user_nom: user_nom, user_prenom: user_prenom, user_adress: user_adress, user_ville: user_ville, user_code_postal: user_code_postal, user_pays: user_pays,  user_email: user_email, user_pass: user_pass, user_tel: user_tel, user_newsletter: 'false'}, function(data, textStatus) {
                     if (textStatus === "success") {
@@ -529,7 +530,7 @@ $(document).ready(function () {
                                                         $('#form_don').css('display', 'none');
                                                         $('#div_h1_h2').css('display', 'none');
                                                         $('#widget').css('display', 'block');
-                                                        $("html, body").animate({ scrollTop: 0 }, "fast");
+                                                        //$("html, body").animate({ scrollTop: 0 }, "fast");
                                                         $("#mfgWidget").contents().find("#" + user_carte).trigger('click');
                                                     }
                                                 }, 2000);
